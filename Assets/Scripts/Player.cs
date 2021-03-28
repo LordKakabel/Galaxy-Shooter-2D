@@ -12,14 +12,20 @@ public class Player : MonoBehaviour
     [SerializeField] private Vector3 _projectileOffset = new Vector3(0, 0.75f, 0);
     [SerializeField] private float _fireRate = 0.5f;
     [SerializeField] private int _lives = 3;
-
+    
     private float _nextFire = 0f;
+    private SpawnManager _spawnManager = null;
 
     // Start is called before the first frame update
     void Start()
     {
         // Set the current position to new position (0, 0, 0)
         transform.position = Vector3.zero;
+
+        _spawnManager = FindObjectOfType<SpawnManager>();
+        if (_spawnManager == null) {
+            Debug.LogError(name + ": SpawnManager not found.");
+        }
     }
 
     // Update is called once per frame
@@ -84,7 +90,8 @@ public class Player : MonoBehaviour
 
     private void GameOver() 
     {
-        Destroy(gameObject);
+        _spawnManager.OnPlayerDeath();
         Debug.Log("Game Over");
+        Destroy(gameObject);
     }
 }
