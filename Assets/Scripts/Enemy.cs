@@ -29,20 +29,13 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter(Collider other) {
-        Debug.Log("Hit by " + other.name);
-
-        if (other.tag == "Laser") {
-            Destroy(other.gameObject);
+    private void OnTriggerEnter2D(Collider2D collision) {
+        if (collision.CompareTag("Laser")) {
+            Destroy(collision.gameObject);
             Destroy(gameObject);
         }
-        else if (other.tag == "Player") {
-            /*Player player = other.transform.GetComponent<Player>();
-            if (player != null) {
-                player.Damage();
-            }*/
-            other.transform.GetComponent<Player>().Damage();
-
+        else if (collision.CompareTag("Player")) {
+            collision.transform.GetComponent<Player>().Damage();
             Destroy(gameObject);
         }
     }
