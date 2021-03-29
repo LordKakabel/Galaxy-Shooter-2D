@@ -9,12 +9,15 @@ public class Player : MonoBehaviour
     [SerializeField] private float _yTopBoundary = 0f;
     [SerializeField] private float _yBottomBoundary = -3.5f;
     [SerializeField] private Transform _pfProjectile = null;
+    [SerializeField] private Transform _pfTripleShotProjectile = null;
     [SerializeField] private Vector3 _projectileOffset = new Vector3(0, 0.75f, 0);
     [SerializeField] private float _fireRate = 0.5f;
     [SerializeField] private int _lives = 3;
+    [SerializeField] private float _powerupDuration = 5f;
     
     private float _nextFire = 0f;
     private SpawnManager _spawnManager = null;
+    private bool _isTripleShotActive = false;
 
     // Start is called before the first frame update
     void Start()
@@ -77,7 +80,26 @@ public class Player : MonoBehaviour
         // Reset the cooldown timer
         _nextFire = Time.time + _fireRate;
 
-        Instantiate(_pfProjectile, transform.position + _projectileOffset, Quaternion.identity);
+        Transform projectile;
+
+        if (_isTripleShotActive) {
+            projectile = _pfTripleShotProjectile;
+        }
+        else {
+            projectile = _pfProjectile;
+        }
+
+        Instantiate(projectile, transform.position + _projectileOffset, Quaternion.identity);
+    }
+
+    public void EnableTripleShot() {
+        _isTripleShotActive = true;
+        StartCoroutine(TripleShotTimer());
+    }
+
+    private IEnumerator TripleShotTimer() {
+        yield return new WaitForSeconds(_powerupDuration);
+        _isTripleShotActive = false;
     }
 
     public void Damage() {

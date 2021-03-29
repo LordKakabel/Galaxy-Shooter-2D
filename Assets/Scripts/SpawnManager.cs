@@ -12,26 +12,32 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] private float _ySpawnPoint = 7f;
     [SerializeField] private float _zSpawnPoint = 0f;
     [SerializeField] private float _spawnDelay = 5f;
+    [SerializeField] private Transform _tripleShotPowerupPrefab = null;
+    [SerializeField] private int _powerupSpawnDelayMin = 3;
+    [SerializeField] private int _powerupSpawnDelayMax = 7;
 
     private bool _continueSpawning = true;
 
     // Start is called before the first frame update
     void Start()
     {
-        StartCoroutine(SpawnRoutine());
+        StartCoroutine(SpawnEnemyRoutine());
+        StartCoroutine(SpawnPowerupRoutine());
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-    private IEnumerator SpawnRoutine() {
+    private IEnumerator SpawnEnemyRoutine() {
         while (_continueSpawning) {
             Vector3 spawnPosition = new Vector3(Random.Range(-_xSpawnRange, _xSpawnRange), _ySpawnPoint, _zSpawnPoint);
             Instantiate(_enemyPrefab, spawnPosition, Quaternion.identity, _enemyContainer);
             yield return new WaitForSeconds(_spawnDelay);
+        }
+    }
+
+    private IEnumerator SpawnPowerupRoutine() {
+        while (_continueSpawning) {
+            Vector3 spawnPosition = new Vector3(Random.Range(-_xSpawnRange, _xSpawnRange), _ySpawnPoint, _zSpawnPoint);
+            Instantiate(_tripleShotPowerupPrefab, spawnPosition, Quaternion.identity);
+            yield return new WaitForSeconds(Random.Range(_powerupSpawnDelayMin, _powerupSpawnDelayMax + 1));
         }
     }
 
