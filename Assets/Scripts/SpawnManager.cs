@@ -12,7 +12,7 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] private float _ySpawnPoint = 7f;
     [SerializeField] private float _zSpawnPoint = 0f;
     [SerializeField] private float _spawnDelay = 5f;
-    [SerializeField] private Transform _tripleShotPowerupPrefab = null;
+    [SerializeField] private Transform[] _powerupPrefabs = null;
     [SerializeField] private int _powerupSpawnDelayMin = 3;
     [SerializeField] private int _powerupSpawnDelayMax = 7;
 
@@ -36,7 +36,8 @@ public class SpawnManager : MonoBehaviour
     private IEnumerator SpawnPowerupRoutine() {
         while (_continueSpawning) {
             Vector3 spawnPosition = new Vector3(Random.Range(-_xSpawnRange, _xSpawnRange), _ySpawnPoint, _zSpawnPoint);
-            Instantiate(_tripleShotPowerupPrefab, spawnPosition, Quaternion.identity);
+            int powerupIndex = Random.Range(0, _powerupPrefabs.Length);
+            Instantiate(_powerupPrefabs[powerupIndex], spawnPosition, Quaternion.identity);
             yield return new WaitForSeconds(Random.Range(_powerupSpawnDelayMin, _powerupSpawnDelayMax + 1));
         }
     }

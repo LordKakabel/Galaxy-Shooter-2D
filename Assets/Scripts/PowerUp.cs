@@ -4,8 +4,11 @@ using UnityEngine;
 
 public class PowerUp : MonoBehaviour
 {
+    private enum Powerup { TripleShot, Speed, Shields };
+
     [SerializeField] private float _speed = 3f;
     [SerializeField] private float _yBoundary = -8f;
+    [SerializeField] private Powerup _powerupID = Powerup.TripleShot;
 
     // Update is called once per frame
     void Update() {
@@ -20,7 +23,18 @@ public class PowerUp : MonoBehaviour
         if (collision.CompareTag("Player")) {
             Player player = collision.transform.GetComponent<Player>();
             if (player != null) {
-                player.EnableTripleShot();
+                switch (_powerupID) {
+                    case Powerup.TripleShot:
+                        player.EnableTripleShot();
+                        break;
+                    case Powerup.Speed:
+                        player.EnableSpeedBoost();
+                        break;
+                    case Powerup.Shields:
+                        break;
+                    default:
+                        break;
+                }
             }
 
             Destroy(gameObject);

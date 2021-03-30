@@ -203,6 +203,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _speed: 5
+  _speedBoostMultiplier: 1.5
   _xBoundary: 9
   _yTopBoundary: 0
   _yBottomBoundary: -3.5
@@ -371,8 +372,9 @@ MonoBehaviour:
   _ySpawnPoint: 7
   _zSpawnPoint: 0
   _spawnDelay: 5
-  _tripleShotPowerupPrefab: {fileID: 4179367131703973158, guid: 8d70180c6bbbc414badbbaaab8a0b775,
-    type: 3}
+  _powerupPrefabs:
+  - {fileID: 6550612046096754759, guid: 123e4808dac129b47ab7c81e26831239, type: 3}
+  - {fileID: 4179367131703973158, guid: 8d70180c6bbbc414badbbaaab8a0b775, type: 3}
   _powerupSpawnDelayMin: 3
   _powerupSpawnDelayMax: 7
 --- !u!4 &1052859023

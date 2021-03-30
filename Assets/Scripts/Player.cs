@@ -5,6 +5,7 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     [SerializeField] private float _speed = 3.5f;
+    [SerializeField] private float _speedBoostMultiplier = 1.5f;
     [SerializeField] private float _xBoundary = 9f;
     [SerializeField] private float _yTopBoundary = 0f;
     [SerializeField] private float _yBottomBoundary = -3.5f;
@@ -18,6 +19,7 @@ public class Player : MonoBehaviour
     private float _nextFire = 0f;
     private SpawnManager _spawnManager = null;
     private bool _isTripleShotActive = false;
+    private bool _isSpeedBoostActive = false;
 
     // Start is called before the first frame update
     void Start()
@@ -50,9 +52,14 @@ public class Player : MonoBehaviour
         float horizontalInput = Input.GetAxis("Horizontal");
         float verticalInput = Input.GetAxis("Vertical");
 
+        float speed = _speed;
+        if (_isSpeedBoostActive) {
+            speed *= _speedBoostMultiplier;
+        }
+
         transform.Translate(
             new Vector3(horizontalInput, verticalInput, transform.position.z).normalized
-            * _speed
+            * speed
             * Time.deltaTime);
 
         // If the player position is out of bounds, set the position to the boundary
@@ -100,6 +107,16 @@ public class Player : MonoBehaviour
     private IEnumerator TripleShotTimer() {
         yield return new WaitForSeconds(_powerupDuration);
         _isTripleShotActive = false;
+    }
+
+    public void EnableSpeedBoost() {
+        _isSpeedBoostActive = true;
+        StartCoroutine(SpeedBoostTimer());
+    }
+
+    private IEnumerator SpeedBoostTimer() {
+        yield return new WaitForSeconds(_powerupDuration);
+        _isSpeedBoostActive = false;
     }
 
     public void Damage() {
