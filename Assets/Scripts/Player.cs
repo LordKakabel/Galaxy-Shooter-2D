@@ -18,10 +18,12 @@ public class Player : MonoBehaviour
     [SerializeField] private GameObject _shield = null;
     
     private float _nextFire = 0f;
-    private SpawnManager _spawnManager = null;
+    private SpawnManager _spawnManager;
     private bool _isTripleShotActive = false;
     private bool _isSpeedBoostActive = false;
     private bool _isShieldActive = false;
+    private int _score = 0;
+    private UIManager _uiManager;
 
     // Start is called before the first frame update
     void Start()
@@ -33,6 +35,9 @@ public class Player : MonoBehaviour
         if (_spawnManager == null) {
             Debug.LogError(name + ": SpawnManager not found.");
         }
+
+        _uiManager = FindObjectOfType<UIManager>();
+        if (_uiManager == null) { Debug.LogError(name + ": UI Manager not found."); }
     }
 
     // Update is called once per frame
@@ -150,5 +155,10 @@ public class Player : MonoBehaviour
         _spawnManager.OnPlayerDeath();
         Debug.Log("Game Over");
         Destroy(gameObject);
+    }
+
+    public void AddScore(int points) {
+        _score += points;
+        _uiManager.UpdateScore(_score);
     }
 }
