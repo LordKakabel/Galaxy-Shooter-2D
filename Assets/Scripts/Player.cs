@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
@@ -18,18 +19,24 @@ public class Player : MonoBehaviour
     [SerializeField] private GameObject _shield = null;
     
     private float _nextFire = 0f;
+    private GameManager _gameManager; 
     private SpawnManager _spawnManager;
     private bool _isTripleShotActive = false;
     private bool _isSpeedBoostActive = false;
     private bool _isShieldActive = false;
     private int _score = 0;
     private UIManager _uiManager;
-
+    
     // Start is called before the first frame update
     void Start()
     {
         // Set the current position to new position (0, 0, 0)
         transform.position = Vector3.zero;
+
+        _gameManager = FindObjectOfType<GameManager>();
+        if (_gameManager == null) {
+            Debug.LogError(name + ": GameManager not found.");
+        }
 
         _spawnManager = FindObjectOfType<SpawnManager>();
         if (_spawnManager == null) {
@@ -38,6 +45,8 @@ public class Player : MonoBehaviour
 
         _uiManager = FindObjectOfType<UIManager>();
         if (_uiManager == null) { Debug.LogError(name + ": UI Manager not found."); }
+
+        _uiManager.UpdateLives(_lives);
     }
 
     // Update is called once per frame
@@ -144,6 +153,7 @@ public class Player : MonoBehaviour
         }
 
         _lives--;
+        _uiManager.UpdateLives(_lives);
 
         if (_lives <= 0) {
             GameOver();
@@ -153,7 +163,8 @@ public class Player : MonoBehaviour
     private void GameOver() 
     {
         _spawnManager.OnPlayerDeath();
-        Debug.Log("Game Over");
+        _uiManager.DisplayGameOver();
+        _gameManager.GameOver();
         Destroy(gameObject);
     }
 
