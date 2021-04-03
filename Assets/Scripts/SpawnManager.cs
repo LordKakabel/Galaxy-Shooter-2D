@@ -15,17 +15,25 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] private Transform[] _powerupPrefabs = null;
     [SerializeField] private int _powerupSpawnDelayMin = 3;
     [SerializeField] private int _powerupSpawnDelayMax = 7;
+    [SerializeField] private float _enemyBeginSpawningDelay = 2f;
+    [SerializeField] private float _powerupBeginSpawningDelay = 5f;
 
     private bool _continueSpawning = true;
 
     // Start is called before the first frame update
     void Start()
     {
+        
+    }
+
+    public void BeginSpawning() {
         StartCoroutine(SpawnEnemyRoutine());
         StartCoroutine(SpawnPowerupRoutine());
     }
 
     private IEnumerator SpawnEnemyRoutine() {
+        yield return new WaitForSeconds(_enemyBeginSpawningDelay);
+
         while (_continueSpawning) {
             Vector3 spawnPosition = new Vector3(Random.Range(-_xSpawnRange, _xSpawnRange), _ySpawnPoint, _zSpawnPoint);
             Instantiate(_enemyPrefab, spawnPosition, Quaternion.identity, _enemyContainer);
@@ -34,6 +42,8 @@ public class SpawnManager : MonoBehaviour
     }
 
     private IEnumerator SpawnPowerupRoutine() {
+        yield return new WaitForSeconds(_powerupBeginSpawningDelay);
+
         while (_continueSpawning) {
             Vector3 spawnPosition = new Vector3(Random.Range(-_xSpawnRange, _xSpawnRange), _ySpawnPoint, _zSpawnPoint);
             int powerupIndex = Random.Range(0, _powerupPrefabs.Length);

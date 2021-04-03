@@ -17,7 +17,8 @@ public class Player : MonoBehaviour
     [SerializeField] private int _lives = 3;
     [SerializeField] private float _powerupDuration = 5f;
     [SerializeField] private GameObject _shield = null;
-    
+    [SerializeField] private GameObject[] _engineDamage = new GameObject[2];
+
     private float _nextFire = 0f;
     private GameManager _gameManager; 
     private SpawnManager _spawnManager;
@@ -154,6 +155,14 @@ public class Player : MonoBehaviour
 
         _lives--;
         _uiManager.UpdateLives(_lives);
+
+        if (_lives == 2) {
+            _engineDamage[Random.Range(0, _engineDamage.Length)].SetActive(true);
+        } else if (_lives == 1) {
+            foreach (var engine in _engineDamage) {
+                engine.SetActive(true);
+            }
+        }
 
         if (_lives <= 0) {
             GameOver();
