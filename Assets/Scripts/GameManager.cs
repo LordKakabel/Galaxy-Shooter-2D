@@ -7,25 +7,22 @@ public class GameManager : MonoBehaviour
 {
     private bool _isGameOver = false;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.R) && _isGameOver) {
+        if (Input.GetKeyDown(KeyCode.R) && _isGameOver)
+        {
             RestartGame();
         }
     }
 
-    public void GameOver() {
+    public void GameOver()
+    {
         _isGameOver = true;
     }
 
-    private void RestartGame() {
+    private void RestartGame()
+    {
         SceneManager.LoadScene(1);
     }
 }

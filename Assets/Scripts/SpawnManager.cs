@@ -20,31 +20,30 @@ public class SpawnManager : MonoBehaviour
 
     private bool _continueSpawning = true;
 
-    // Start is called before the first frame update
-    void Start()
+    public void BeginSpawning()
     {
-        
-    }
-
-    public void BeginSpawning() {
         StartCoroutine(SpawnEnemyRoutine());
         StartCoroutine(SpawnPowerupRoutine());
     }
 
-    private IEnumerator SpawnEnemyRoutine() {
+    private IEnumerator SpawnEnemyRoutine()
+    {
         yield return new WaitForSeconds(_enemyBeginSpawningDelay);
 
-        while (_continueSpawning) {
+        while (_continueSpawning)
+        {
             Vector3 spawnPosition = new Vector3(Random.Range(-_xSpawnRange, _xSpawnRange), _ySpawnPoint, _zSpawnPoint);
             Instantiate(_enemyPrefab, spawnPosition, Quaternion.identity, _enemyContainer);
             yield return new WaitForSeconds(_spawnDelay);
         }
     }
 
-    private IEnumerator SpawnPowerupRoutine() {
+    private IEnumerator SpawnPowerupRoutine()
+    {
         yield return new WaitForSeconds(_powerupBeginSpawningDelay);
 
-        while (_continueSpawning) {
+        while (_continueSpawning)
+        {
             Vector3 spawnPosition = new Vector3(Random.Range(-_xSpawnRange, _xSpawnRange), _ySpawnPoint, _zSpawnPoint);
             int powerupIndex = Random.Range(0, _powerupPrefabs.Length);
             Instantiate(_powerupPrefabs[powerupIndex], spawnPosition, Quaternion.identity);
@@ -52,7 +51,8 @@ public class SpawnManager : MonoBehaviour
         }
     }
 
-    public void OnPlayerDeath() {
+    public void OnPlayerDeath()
+    {
         _continueSpawning = false;
         Destroy(_enemyContainer.gameObject);
     }

@@ -49,6 +49,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _speed: 3
   _yBoundary: -8
+  _powerupID: 0
+  _pickupSFX: {fileID: 8300000, guid: 5ee343246919d2b4bba63ae629e95494, type: 3}
 --- !u!212 &4179367131703973160
 SpriteRenderer:
   m_ObjectHideFlags: 0

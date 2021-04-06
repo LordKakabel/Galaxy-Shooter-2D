@@ -46,6 +46,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da281982f1b100d4f99dcc47d7f5281a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _rotationSpeed: -10
+  _explosionPrefab: {fileID: 7171949577894076450, guid: 25ed892f47d1d5540aba710815c32295,
+    type: 3}
+  _explosionTime: 3
+  _explosionDelay: 0.25
+  _explosionSFX: {fileID: 8300000, guid: a885c043fab7e46438bba03ba9dab6bc, type: 3}
 --- !u!212 &1995339519337917875
 SpriteRenderer:
   m_ObjectHideFlags: 0

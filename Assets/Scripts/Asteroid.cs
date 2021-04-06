@@ -9,6 +9,7 @@ public class Asteroid : MonoBehaviour
     [SerializeField] private GameObject _explosionPrefab = null;
     [SerializeField] private float _explosionTime = 3f;
     [SerializeField] private float _explosionDelay = 0.25f;
+    [SerializeField] private AudioClip _explosionSFX = null;
 
     private SpawnManager _spawnManager;
 
@@ -25,20 +26,25 @@ public class Asteroid : MonoBehaviour
         transform.Rotate(Vector3.forward * _rotationSpeed * Time.deltaTime);
     }
 
-    private void OnTriggerEnter2D(Collider2D collision) {
-        if (collision.CompareTag("Laser")) {
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Laser"))
+        {
             Destroy(collision.gameObject);
             DestroySelf();
         }
-        else if (collision.CompareTag("Player")) {
+        else if (collision.CompareTag("Player"))
+        {
             collision.transform.GetComponent<Player>().Damage();
             DestroySelf();
         }
     }
 
-    private void DestroySelf() {
+    private void DestroySelf()
+    {
         _spawnManager.BeginSpawning();
         GameObject explosion = Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
+        AudioSource.PlayClipAtPoint(_explosionSFX, transform.position);
         Destroy(explosion, _explosionTime);
         Destroy(gameObject, _explosionDelay);
     }

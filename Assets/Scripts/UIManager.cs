@@ -21,21 +21,26 @@ public class UIManager : MonoBehaviour
         UpdateScore(0);
     }
 
-    public void UpdateScore(int score) {
+    public void UpdateScore(int score)
+    {
         _scoreText.text = "Score: " + score;
     }
 
-    public void UpdateLives(int lives) {
+    public void UpdateLives(int lives)
+    {
         _livesImage.sprite = _livesSprites[lives];
     }
 
-    public void DisplayGameOver() {
+    public void DisplayGameOver()
+    {
         _restartDisplay.SetActive(true);
         StartCoroutine(GameOverFlicker());
     }
 
-    private IEnumerator GameOverFlicker() {
-        for (int i = 0; i < _timesToFlicker; i++) {
+    private IEnumerator GameOverFlicker()
+    {
+        for (int i = 0; i < _timesToFlicker; i++)
+        {
             _gameOverDisplay.SetActive(!_gameOverDisplay.activeSelf);
             yield return new WaitForSeconds(_flickerDelay);
         }

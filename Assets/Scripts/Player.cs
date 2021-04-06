@@ -18,16 +18,18 @@ public class Player : MonoBehaviour
     [SerializeField] private float _powerupDuration = 5f;
     [SerializeField] private GameObject _shield = null;
     [SerializeField] private GameObject[] _engineDamage = new GameObject[2];
+    [SerializeField] private AudioClip _laserSFX = null;
+    [SerializeField] private AudioClip _explosion = null;
 
     private float _nextFire = 0f;
-    private GameManager _gameManager; 
+    private GameManager _gameManager;
     private SpawnManager _spawnManager;
     private bool _isTripleShotActive = false;
     private bool _isSpeedBoostActive = false;
     private bool _isShieldActive = false;
     private int _score = 0;
     private UIManager _uiManager;
-    
+
     // Start is called before the first frame update
     void Start()
     {
@@ -35,12 +37,14 @@ public class Player : MonoBehaviour
         transform.position = Vector3.zero;
 
         _gameManager = FindObjectOfType<GameManager>();
-        if (_gameManager == null) {
+        if (_gameManager == null)
+        {
             Debug.LogError(name + ": GameManager not found.");
         }
 
         _spawnManager = FindObjectOfType<SpawnManager>();
-        if (_spawnManager == null) {
+        if (_spawnManager == null)
+        {
             Debug.LogError(name + ": SpawnManager not found.");
         }
 
@@ -61,7 +65,7 @@ public class Player : MonoBehaviour
         }
     }
 
-    void CalculateMovement() 
+    void CalculateMovement()
     {
         //! Think of Time.deltaTime as 1 second
         //! transform.Translate(Vector3.right * 5 * Time.deltaTime) will move 5 m per second, independent of framerate
@@ -70,7 +74,8 @@ public class Player : MonoBehaviour
         float verticalInput = Input.GetAxis("Vertical");
 
         float speed = _speed;
-        if (_isSpeedBoostActive) {
+        if (_isSpeedBoostActive)
+        {
             speed *= _speedBoostMultiplier;
         }
 
@@ -86,13 +91,15 @@ public class Player : MonoBehaviour
             transform.position.z);
 
         // If the player reachs an x boundary, wrap around to the opposite boundary
-        if (transform.position.x >= _xBoundary) {
+        if (transform.position.x >= _xBoundary)
+        {
             transform.position = new Vector3(
                 -_xBoundary,
                 transform.position.y,
                 transform.position.z);
         }
-        else if (transform.position.x <= -_xBoundary) {
+        else if (transform.position.x <= -_xBoundary)
+        {
             transform.position = new Vector3(
                 _xBoundary,
                 transform.position.y,
@@ -100,55 +107,68 @@ public class Player : MonoBehaviour
         }
     }
 
-    private void FireProjectile() {
+    private void FireProjectile()
+    {
         // Reset the cooldown timer
         _nextFire = Time.time + _fireRate;
 
         Transform projectile;
 
-        if (_isTripleShotActive) {
+        if (_isTripleShotActive)
+        {
             projectile = _pfTripleShotProjectile;
         }
-        else {
+        else
+        {
             projectile = _pfProjectile;
         }
 
         Instantiate(projectile, transform.position + _projectileOffset, Quaternion.identity);
+
+        AudioSource.PlayClipAtPoint(_laserSFX, transform.position);
     }
 
-    public void EnableTripleShot() {
+    public void EnableTripleShot()
+    {
         _isTripleShotActive = true;
         StartCoroutine(TripleShotTimer());
     }
 
-    private IEnumerator TripleShotTimer() {
+    private IEnumerator TripleShotTimer()
+    {
         yield return new WaitForSeconds(_powerupDuration);
         _isTripleShotActive = false;
     }
 
-    public void EnableSpeedBoost() {
+    public void EnableSpeedBoost()
+    {
         _isSpeedBoostActive = true;
         StartCoroutine(SpeedBoostTimer());
     }
 
-    private IEnumerator SpeedBoostTimer() {
+    private IEnumerator SpeedBoostTimer()
+    {
         yield return new WaitForSeconds(_powerupDuration);
         _isSpeedBoostActive = false;
     }
 
-    public void EnableShield() {
+    public void EnableShield()
+    {
         _isShieldActive = true;
         _shield.SetActive(true);
     }
 
-    private void DestroyShield() {
+    private void DestroyShield()
+    {
         _isShieldActive = false;
         _shield.SetActive(false);
     }
 
-    public void Damage() {
+    public void Damage()
+    {
 
-        if (_isShieldActive) {
+        if (_isShieldActive)
+        {
             DestroyShield();
             return;
         }
@@ -156,28 +176,35 @@ public class Player : MonoBehaviour
         _lives--;
         _uiManager.UpdateLives(_lives);
 
-        if (_lives == 2) {
+        if (_lives == 2)
+        {
             _engineDamage[Random.Range(0, _engineDamage.Length)].SetActive(true);
-        } else if (_lives == 1) {
-            foreach (var engine in _engineDamage) {
+        }
+        else if (_lives == 1)
+        {
+            foreach (var engine in _engineDamage)
+            {
                 engine.SetActive(true);
             }
         }
 
-        if (_lives <= 0) {
+        if (_lives <= 0)
+        {
             GameOver();
         }
     }
 
-    private void GameOver() 
+    private void GameOver()
     {
         _spawnManager.OnPlayerDeath();
         _uiManager.DisplayGameOver();
         _gameManager.GameOver();
+        AudioSource.PlayClipAtPoint(_explosion, transform.position);
         Destroy(gameObject);
     }
 
-    public void AddScore(int points) {
+    public void AddScore(int points)
+    {
         _score += points;
         _uiManager.UpdateScore(_score);
     }

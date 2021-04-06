@@ -52,6 +52,7 @@ MonoBehaviour:
   _xRange: 9
   _scoreValue: 10
   _deathAnimation: {fileID: 7400000, guid: 777d3a6f4db1fdd4f8a0f7b77e66cd40, type: 2}
+  _explosionSFX: {fileID: 8300000, guid: a885c043fab7e46438bba03ba9dab6bc, type: 3}
 --- !u!212 &2586283385976579621
 SpriteRenderer:
   m_ObjectHideFlags: 0
