@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7177092913575048356}
   - component: {fileID: 3836268559570271724}
+  - component: {fileID: -9170360358693652385}
   - component: {fileID: 2586283385976579621}
   - component: {fileID: 5347835988294194143}
   - component: {fileID: 1231035690451119609}
@@ -53,6 +54,24 @@ MonoBehaviour:
   _scoreValue: 10
   _deathAnimation: {fileID: 7400000, guid: 777d3a6f4db1fdd4f8a0f7b77e66cd40, type: 2}
   _explosionSFX: {fileID: 8300000, guid: a885c043fab7e46438bba03ba9dab6bc, type: 3}
+--- !u!114 &-9170360358693652385
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5554423369706256121}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7381df872b31f42418c754e0341a02bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _projectilePrefab: {fileID: 7114731030603324515, guid: 8fd55bd048549f14d8854400e5971ee8,
+    type: 3}
+  _projectileOffset: {x: 0, y: -0.52, z: 0}
+  _laserSFX: {fileID: 8300000, guid: 92bcf074a2dac574abd1ef082eb500ef, type: 3}
+  _minFireCooldown: 3
+  _maxFireCooldown: 7
 --- !u!212 &2586283385976579621
 SpriteRenderer:
   m_ObjectHideFlags: 0

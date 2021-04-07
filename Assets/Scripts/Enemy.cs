@@ -65,6 +65,7 @@ public class Enemy : MonoBehaviour
         _animator.SetTrigger("OnEnemyDeath");
         _speed = 0;
         _collider.enabled = false;
+        if (GetComponent<EnemyFire>()) { GetComponent<EnemyFire>().CeaseFire(); }
         AudioSource.PlayClipAtPoint(_explosionSFX, transform.position);
         yield return new WaitForSeconds(_deathAnimation.length);
         Destroy(gameObject);

@@ -20,6 +20,8 @@ public class Player : MonoBehaviour
     [SerializeField] private GameObject[] _engineDamage = new GameObject[2];
     [SerializeField] private AudioClip _laserSFX = null;
     [SerializeField] private AudioClip _explosion = null;
+    [SerializeField] private float _invincibilityDuration = 0.5f;
+    [SerializeField] private GameObject _hullDamage = null;
 
     private float _nextFire = 0f;
     private GameManager _gameManager;
@@ -29,6 +31,7 @@ public class Player : MonoBehaviour
     private bool _isShieldActive = false;
     private int _score = 0;
     private UIManager _uiManager;
+    private bool _isInvincible = false;
 
     // Start is called before the first frame update
     void Start()
@@ -188,6 +191,8 @@ public class Player : MonoBehaviour
             }
         }
 
+        StartCoroutine(Invincible());
+
         if (_lives <= 0)
         {
             GameOver();
@@ -207,5 +212,23 @@ public class Player : MonoBehaviour
     {
         _score += points;
         _uiManager.UpdateScore(_score);
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Enemy Laser") && !_isInvincible)
+        {
+            Damage();
+            Destroy(collision.transform.parent.gameObject);
+        }
+    }
+
+    private IEnumerator Invincible()
+    {
+        _isInvincible = true;
+        _hullDamage.SetActive(true);
+        yield return new WaitForSeconds(_invincibilityDuration);
+        _isInvincible = false;
+        _hullDamage.SetActive(false);
     }
 }
