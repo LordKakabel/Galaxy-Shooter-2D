@@ -205,6 +205,12 @@ public class Player : MonoBehaviour
         _shieldSpriteRenderer.color = _shieldColors[_currentShieldHealth - 1];
     }
 
+    public void AmmoRefill()
+    {
+        _currentAmmo = _maxAmmo;
+        _uiManager.UpdateAmmo(_currentAmmo);
+    }
+
     public void Damage()
     {
 
