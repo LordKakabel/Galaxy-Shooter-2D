@@ -48,6 +48,7 @@ public class Player : MonoBehaviour
     private int _currentLives;
     private float _currentThrusterTimeRemaining;
     private bool _areThrustersActive = false;
+    private CameraShake _cameraShake;
 
     private void Awake()
     {
@@ -59,9 +60,6 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        // Set the current position to new position (0, 0, 0)
-        transform.position = Vector3.zero;
-
         _shieldSpriteRenderer = _shield.GetComponent<SpriteRenderer>();
         if (!_shieldSpriteRenderer) Debug.LogError(name + ": Cannot find shield object's Sprite Renderer.");
         
@@ -84,6 +82,9 @@ public class Player : MonoBehaviour
         _uiManager.UpdateAmmo(_currentAmmo);
         _uiManager.UpdateLives(_currentLives);
         _uiManager.UpdateThrusterBar(_currentThrusterTimeRemaining / _maxThrusterTime);
+
+        _cameraShake = FindObjectOfType<CameraShake>();
+        if (!_cameraShake) Debug.LogError(name + ": CameraShake object not found.");
     }
 
     // Update is called once per frame
@@ -263,6 +264,7 @@ public class Player : MonoBehaviour
 
     public void Damage()
     {
+        _cameraShake.Shake();
 
         if (_isShieldActive)
         {
