@@ -16,6 +16,9 @@ public class UIManager : MonoBehaviour
     [SerializeField] private float _flickerDelay = 0.5f;
     [Tooltip("Should be an odd number.")]
     [SerializeField] private int _timesToFlicker = 51;
+    [SerializeField] private RectTransform _thrustRemainingRectTransform = null;
+    [SerializeField] private Image _thrustRemainingImage = null;
+    [SerializeField] private Color[] _thrustColors = new Color[3];
 
     private Color _originalAmmoTextColor;
 
@@ -61,5 +64,11 @@ public class UIManager : MonoBehaviour
             _gameOverDisplay.SetActive(!_gameOverDisplay.activeSelf);
             yield return new WaitForSeconds(_flickerDelay);
         }
+    }
+
+    public void UpdateThrusterBar(float percentFull)
+    {
+        _thrustRemainingRectTransform.sizeDelta = new Vector2(percentFull * 100f, 100f);
+        _thrustRemainingImage.color = _thrustColors[(int)((percentFull * 3) - 0.1f)];
     }
 }

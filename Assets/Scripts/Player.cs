@@ -27,6 +27,10 @@ public class Player : MonoBehaviour
     [SerializeField] private int _maxShieldHealth = 3;
     [SerializeField] private Color[] _shieldColors = new Color[3];
     [SerializeField] private int _maxAmmo = 15;
+    [SerializeField] private float _maxThrusterTime = 5f;
+    [SerializeField] private float _minThrusterThreshold = 0.33f;
+    [Tooltip("The higher this number, the slower ther thrusters will recharge. Cannot be 0.")]
+    [SerializeField] private float _thrusterRechargeDivisor = 3f;
 
     private float _nextFire = 0f;
     private GameManager _gameManager;
@@ -42,10 +46,14 @@ public class Player : MonoBehaviour
     private SpriteRenderer _shieldSpriteRenderer;
     private int _currentAmmo;
     private int _currentLives;
+    private float _currentThrusterTimeRemaining;
+    private bool _areThrustersActive = false;
 
     private void Awake()
     {
         _currentLives = _maxLives;
+        _currentAmmo = _maxAmmo;
+        _currentThrusterTimeRemaining = _maxThrusterTime;
     }
 
     // Start is called before the first frame update
@@ -56,9 +64,7 @@ public class Player : MonoBehaviour
 
         _shieldSpriteRenderer = _shield.GetComponent<SpriteRenderer>();
         if (!_shieldSpriteRenderer) Debug.LogError(name + ": Cannot find shield object's Sprite Renderer.");
-
-        _currentAmmo = _maxAmmo;
-
+        
         _gameManager = FindObjectOfType<GameManager>();
         if (_gameManager == null)
         {
@@ -77,6 +83,7 @@ public class Player : MonoBehaviour
         _uiManager.UpdateScore(_score);
         _uiManager.UpdateAmmo(_currentAmmo);
         _uiManager.UpdateLives(_currentLives);
+        _uiManager.UpdateThrusterBar(_currentThrusterTimeRemaining / _maxThrusterTime);
     }
 
     // Update is called once per frame
@@ -88,6 +95,8 @@ public class Player : MonoBehaviour
         {
             FireProjectile();
         }
+
+        _uiManager.UpdateThrusterBar(_currentThrusterTimeRemaining / _maxThrusterTime);
     }
 
     void CalculateMovement()
@@ -104,9 +113,26 @@ public class Player : MonoBehaviour
             speed *= _speedBoostMultiplier;
         }
 
-        if (Input.GetKey(KeyCode.LeftShift))
+        if (Input.GetKeyDown(KeyCode.LeftShift)
+            && _currentThrusterTimeRemaining/_maxThrusterTime > _minThrusterThreshold)
+        {
+            _areThrustersActive = true;
+        }
+        else if (Input.GetKeyUp(KeyCode.LeftShift) || _currentThrusterTimeRemaining <= 0)
+        {
+            _areThrustersActive = false;
+        }
+
+        if (Input.GetKey(KeyCode.LeftShift) && _areThrustersActive)
         {
             speed *= _thrusterSpeedMultiplier;
+            _currentThrusterTimeRemaining = Mathf.Max(_currentThrusterTimeRemaining - Time.deltaTime, 0);
+        }
+        else
+        {
+            _currentThrusterTimeRemaining = Mathf.Min(
+                _currentThrusterTimeRemaining + (Time.deltaTime / _thrusterRechargeDivisor),
+                _maxThrusterTime);
         }
 
         transform.Translate(
