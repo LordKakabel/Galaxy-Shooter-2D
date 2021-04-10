@@ -7,6 +7,8 @@ using TMPro;
 public class UIManager : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI _scoreText = null;
+    [SerializeField] private TextMeshProUGUI _ammoText = null;
+    [SerializeField] private Color _noAmmoTextColor = Color.red;
     [SerializeField] private Image _livesImage = null;
     [SerializeField] private Sprite[] _livesSprites = null;
     [SerializeField] private GameObject _gameOverDisplay = null;
@@ -15,15 +17,30 @@ public class UIManager : MonoBehaviour
     [Tooltip("Should be an odd number.")]
     [SerializeField] private int _timesToFlicker = 51;
 
-    // Start is called before the first frame update
-    void Start()
+    private Color _originalAmmoTextColor;
+
+    void Awake()
     {
-        UpdateScore(0);
+        _originalAmmoTextColor = _ammoText.color;
     }
 
     public void UpdateScore(int score)
     {
         _scoreText.text = "Score: " + score;
+    }
+
+    public void UpdateAmmo(int ammo)
+    {
+        if (ammo == 0)
+        {
+            _ammoText.color = _noAmmoTextColor;
+        }
+        else
+        {
+            _ammoText.color = _originalAmmoTextColor;
+        }
+
+        _ammoText.text = "Ammo: " + ammo;
     }
 
     public void UpdateLives(int lives)

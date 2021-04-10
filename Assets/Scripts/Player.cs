@@ -25,6 +25,7 @@ public class Player : MonoBehaviour
     [SerializeField] private float _thrusterSpeedMultiplier = 1.5f;
     [SerializeField] private int _maxShieldHealth = 3;
     [SerializeField] private Color[] _shieldColors = new Color[3];
+    [SerializeField] private int _maxAmmo = 15;
 
     private float _nextFire = 0f;
     private GameManager _gameManager;
@@ -37,6 +38,7 @@ public class Player : MonoBehaviour
     private bool _isInvincible = false;
     private int _currentShieldHealth;
     private SpriteRenderer _shieldSpriteRenderer;
+    private int _currentAmmo;
 
     // Start is called before the first frame update
     void Start()
@@ -46,6 +48,8 @@ public class Player : MonoBehaviour
 
         _shieldSpriteRenderer = _shield.GetComponent<SpriteRenderer>();
         if (!_shieldSpriteRenderer) Debug.LogError(name + ": Cannot find shield object's Sprite Renderer.");
+
+        _currentAmmo = _maxAmmo;
 
         _gameManager = FindObjectOfType<GameManager>();
         if (_gameManager == null)
@@ -62,6 +66,8 @@ public class Player : MonoBehaviour
         _uiManager = FindObjectOfType<UIManager>();
         if (_uiManager == null) { Debug.LogError(name + ": UI Manager not found."); }
 
+        _uiManager.UpdateScore(_score);
+        _uiManager.UpdateAmmo(_currentAmmo);
         _uiManager.UpdateLives(_lives);
     }
 
@@ -70,7 +76,7 @@ public class Player : MonoBehaviour
     {
         CalculateMovement();
 
-        if (Input.GetKeyDown(KeyCode.Space) && Time.time > _nextFire)
+        if (Input.GetKeyDown(KeyCode.Space) && Time.time > _nextFire && _currentAmmo > 0)
         {
             FireProjectile();
         }
@@ -125,6 +131,9 @@ public class Player : MonoBehaviour
 
     private void FireProjectile()
     {
+        _currentAmmo--;
+        _uiManager.UpdateAmmo(_currentAmmo);
+
         // Reset the cooldown timer
         _nextFire = Time.time + _fireRate;
 
