@@ -14,7 +14,7 @@ public class Player : MonoBehaviour
     [SerializeField] private Transform _pfTripleShotProjectile = null;
     [SerializeField] private Vector3 _projectileOffset = new Vector3 (0, 0.75f, 0);
     [SerializeField] private float _fireRate = 0.5f;
-    [SerializeField] private int _lives = 3;
+    [SerializeField] private int _maxLives = 3;
     [SerializeField] private float _powerupDuration = 5f;
     [SerializeField] private GameObject _shield = null;
     [SerializeField] private GameObject[] _engineDamage = new GameObject[2];
@@ -39,6 +39,12 @@ public class Player : MonoBehaviour
     private int _currentShieldHealth;
     private SpriteRenderer _shieldSpriteRenderer;
     private int _currentAmmo;
+    private int _currentLives;
+
+    private void Awake()
+    {
+        _currentLives = _maxLives;
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -68,7 +74,7 @@ public class Player : MonoBehaviour
 
         _uiManager.UpdateScore(_score);
         _uiManager.UpdateAmmo(_currentAmmo);
-        _uiManager.UpdateLives(_lives);
+        _uiManager.UpdateLives(_currentLives);
     }
 
     // Update is called once per frame
@@ -220,14 +226,14 @@ public class Player : MonoBehaviour
             return;
         }
 
-        _lives--;
-        _uiManager.UpdateLives(_lives);
+        _currentLives--;
+        _uiManager.UpdateLives(_currentLives);
 
-        if (_lives == 2)
+        if (_currentLives == 2)
         {
             _engineDamage[Random.Range(0, _engineDamage.Length)].SetActive(true);
         }
-        else if (_lives == 1)
+        else if (_currentLives == 1)
         {
             foreach (var engine in _engineDamage)
             {
@@ -237,9 +243,27 @@ public class Player : MonoBehaviour
 
         StartCoroutine(Invincible());
 
-        if (_lives <= 0)
+        if (_currentLives < 1)
         {
             GameOver();
+        }
+    }
+
+    public void Heal()
+    {
+        _currentLives = Mathf.Clamp(_currentLives + 1, 0, _maxLives);
+        _uiManager.UpdateLives(_currentLives);
+
+        if (_currentLives == 2)
+        {
+            _engineDamage[Random.Range(0, _engineDamage.Length)].SetActive(false);
+        }
+        else if (_currentLives == 3)
+        {
+            foreach (var engine in _engineDamage)
+            {
+                engine.SetActive(false);
+            }
         }
     }
 

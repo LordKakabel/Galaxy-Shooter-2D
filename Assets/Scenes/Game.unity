@@ -378,7 +378,7 @@ MonoBehaviour:
     type: 3}
   _projectileOffset: {x: 0, y: 1, z: 0}
   _fireRate: 0.15
-  _lives: 3
+  _maxLives: 3
   _powerupDuration: 5
   _shield: {fileID: 2065421559}
   _engineDamage:
@@ -1149,10 +1149,7 @@ MonoBehaviour:
   _zSpawnPoint: 0
   _spawnDelay: 5
   _powerupPrefabs:
-  - {fileID: 6550612046096754759, guid: 123e4808dac129b47ab7c81e26831239, type: 3}
-  - {fileID: 4179367131703973158, guid: 8d70180c6bbbc414badbbaaab8a0b775, type: 3}
-  - {fileID: 2196265275475744099, guid: fcb866fd2dad4334db60241ce3045c7a, type: 3}
-  - {fileID: 4179367131703973158, guid: 93c146cc372c8854dbc51f876b081682, type: 3}
+  - {fileID: 3681058126467331910, guid: cfcef6b63732c8042a7e122c33b19d05, type: 3}
   _powerupSpawnDelayMin: 3
   _powerupSpawnDelayMax: 7
   _enemyBeginSpawningDelay: 2
