@@ -70,8 +70,8 @@ MonoBehaviour:
     type: 3}
   _projectileOffset: {x: 0, y: -0.52, z: 0}
   _laserSFX: {fileID: 8300000, guid: 92bcf074a2dac574abd1ef082eb500ef, type: 3}
-  _minFireCooldown: 3
-  _maxFireCooldown: 7
+  _minFireCooldown: 1
+  _maxFireCooldown: 5
 --- !u!212 &2586283385976579621
 SpriteRenderer:
   m_ObjectHideFlags: 0

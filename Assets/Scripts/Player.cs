@@ -12,7 +12,7 @@ public class Player : MonoBehaviour
     [SerializeField] private float _yBottomBoundary = -3.5f;
     [SerializeField] private Transform _pfProjectile = null;
     [SerializeField] private Transform _pfTripleShotProjectile = null;
-    [SerializeField] private Vector3 _projectileOffset = new Vector3(0, 0.75f, 0);
+    [SerializeField] private Vector3 _projectileOffset = new Vector3 (0, 0.75f, 0);
     [SerializeField] private float _fireRate = 0.5f;
     [SerializeField] private int _lives = 3;
     [SerializeField] private float _powerupDuration = 5f;
@@ -22,6 +22,7 @@ public class Player : MonoBehaviour
     [SerializeField] private AudioClip _explosion = null;
     [SerializeField] private float _invincibilityDuration = 0.5f;
     [SerializeField] private GameObject _hullDamage = null;
+    [SerializeField] private float _thrusterSpeedMultiplier = 1.5f;
 
     private float _nextFire = 0f;
     private GameManager _gameManager;
@@ -80,6 +81,11 @@ public class Player : MonoBehaviour
         if (_isSpeedBoostActive)
         {
             speed *= _speedBoostMultiplier;
+        }
+
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            speed *= _thrusterSpeedMultiplier;
         }
 
         transform.Translate(
