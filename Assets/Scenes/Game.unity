@@ -388,6 +388,12 @@ MonoBehaviour:
   _explosion: {fileID: 8300000, guid: a885c043fab7e46438bba03ba9dab6bc, type: 3}
   _invincibilityDuration: 0.5
   _hullDamage: {fileID: 1048696439}
+  _thrusterSpeedMultiplier: 1.5
+  _maxShieldHealth: 3
+  _shieldColors:
+  - {r: 1, g: 0.1882353, b: 0, a: 1}
+  - {r: 0.8235294, g: 0.68235296, b: 0.14509805, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
 --- !u!4 &313741357
 Transform:
   m_ObjectHideFlags: 0

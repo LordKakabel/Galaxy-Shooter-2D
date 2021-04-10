@@ -23,6 +23,8 @@ public class Player : MonoBehaviour
     [SerializeField] private float _invincibilityDuration = 0.5f;
     [SerializeField] private GameObject _hullDamage = null;
     [SerializeField] private float _thrusterSpeedMultiplier = 1.5f;
+    [SerializeField] private int _maxShieldHealth = 3;
+    [SerializeField] private Color[] _shieldColors = new Color[3];
 
     private float _nextFire = 0f;
     private GameManager _gameManager;
@@ -33,12 +35,17 @@ public class Player : MonoBehaviour
     private int _score = 0;
     private UIManager _uiManager;
     private bool _isInvincible = false;
+    private int _currentShieldHealth;
+    private SpriteRenderer _shieldSpriteRenderer;
 
     // Start is called before the first frame update
     void Start()
     {
         // Set the current position to new position (0, 0, 0)
         transform.position = Vector3.zero;
+
+        _shieldSpriteRenderer = _shield.GetComponent<SpriteRenderer>();
+        if (!_shieldSpriteRenderer) Debug.LogError(name + ": Cannot find shield object's Sprite Renderer.");
 
         _gameManager = FindObjectOfType<GameManager>();
         if (_gameManager == null)
@@ -165,12 +172,28 @@ public class Player : MonoBehaviour
     {
         _isShieldActive = true;
         _shield.SetActive(true);
+        _currentShieldHealth = _maxShieldHealth;
+        ShieldColor();
     }
 
-    private void DestroyShield()
+    private void DamageShield()
     {
-        _isShieldActive = false;
-        _shield.SetActive(false);
+        _currentShieldHealth--;
+
+        if (_currentShieldHealth > 0)
+        {
+            ShieldColor();
+        }
+        else
+        {
+            _isShieldActive = false;
+            _shield.SetActive(false);
+        }
+    }
+
+    private void ShieldColor()
+    {
+        _shieldSpriteRenderer.color = _shieldColors[_currentShieldHealth - 1];
     }
 
     public void Damage()
@@ -178,7 +201,7 @@ public class Player : MonoBehaviour
 
         if (_isShieldActive)
         {
-            DestroyShield();
+            DamageShield();
             return;
         }
 
