@@ -12,6 +12,7 @@ public class Player : MonoBehaviour
     [SerializeField] private float _yBottomBoundary = -3.5f;
     [SerializeField] private Transform _pfProjectile = null;
     [SerializeField] private Transform _pfTripleShotProjectile = null;
+    [SerializeField] private Transform _pfSideShotProjectile = null;
     [SerializeField] private Vector3 _projectileOffset = new Vector3 (0, 0.75f, 0);
     [SerializeField] private float _fireRate = 0.5f;
     [SerializeField] private int _maxLives = 3;
@@ -31,6 +32,7 @@ public class Player : MonoBehaviour
     private GameManager _gameManager;
     private SpawnManager _spawnManager;
     private bool _isTripleShotActive = false;
+    private bool _isSideShotActive = false;
     private bool _isSpeedBoostActive = false;
     private bool _isShieldActive = false;
     private int _score = 0;
@@ -145,7 +147,11 @@ public class Player : MonoBehaviour
 
         Transform projectile;
 
-        if (_isTripleShotActive)
+        if (_isSideShotActive)
+        {
+            projectile = _pfSideShotProjectile;
+        }
+        else if (_isTripleShotActive)
         {
             projectile = _pfTripleShotProjectile;
         }
@@ -165,10 +171,22 @@ public class Player : MonoBehaviour
         StartCoroutine(TripleShotTimer());
     }
 
+    public void EnableSideShot()
+    {
+        _isSideShotActive = true;
+        StartCoroutine(SideShotTimer());
+    }
+
     private IEnumerator TripleShotTimer()
     {
         yield return new WaitForSeconds(_powerupDuration);
         _isTripleShotActive = false;
+    }
+
+    private IEnumerator SideShotTimer()
+    {
+        yield return new WaitForSeconds(_powerupDuration);
+        _isSideShotActive = false;
     }
 
     public void EnableSpeedBoost()
