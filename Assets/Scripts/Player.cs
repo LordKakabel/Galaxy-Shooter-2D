@@ -31,6 +31,7 @@ public class Player : MonoBehaviour
     [SerializeField] private float _minThrusterThreshold = 0.33f;
     [Tooltip("The higher this number, the slower ther thrusters will recharge. Cannot be 0.")]
     [SerializeField] private float _thrusterRechargeDivisor = 3f;
+    [SerializeField] private int _deleteAmmoPowerupAmount = 5;
 
     private float _nextFire = 0f;
     private GameManager _gameManager;
@@ -259,6 +260,12 @@ public class Player : MonoBehaviour
     public void AmmoRefill()
     {
         _currentAmmo = _maxAmmo;
+        _uiManager.UpdateAmmo(_currentAmmo);
+    }
+
+    public void DeleteAmmo()
+    {
+        _currentAmmo = Mathf.Max(_currentAmmo - _deleteAmmoPowerupAmount, 0);
         _uiManager.UpdateAmmo(_currentAmmo);
     }
 

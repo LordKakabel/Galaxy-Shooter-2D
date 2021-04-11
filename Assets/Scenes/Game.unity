@@ -474,6 +474,7 @@ MonoBehaviour:
   _maxThrusterTime: 5
   _minThrusterThreshold: 0.33
   _thrusterRechargeDivisor: 3
+  _deleteAmmoPowerupAmount: 5
 --- !u!4 &313741357
 Transform:
   m_ObjectHideFlags: 0
@@ -2539,7 +2540,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6023736107331700, guid: 536032e48549ded47914bb4c1e1ef38d, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 3.5
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 6023736107331700, guid: 536032e48549ded47914bb4c1e1ef38d, type: 3}
       propertyPath: m_LocalPosition.z

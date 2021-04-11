@@ -21,10 +21,12 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Color[] _thrustColors = new Color[3];
 
     private Color _originalAmmoTextColor;
-
+    private Vector2 _thrustRemainingOriginalSize;
+    
     void Awake()
     {
         _originalAmmoTextColor = _ammoText.color;
+        _thrustRemainingOriginalSize = _thrustRemainingRectTransform.sizeDelta;
     }
 
     public void UpdateScore(int score)
@@ -68,7 +70,10 @@ public class UIManager : MonoBehaviour
 
     public void UpdateThrusterBar(float percentFull)
     {
-        _thrustRemainingRectTransform.sizeDelta = new Vector2(percentFull * 100f, 100f);
+        _thrustRemainingRectTransform.sizeDelta = new Vector2(
+            percentFull * _thrustRemainingOriginalSize.x,
+            _thrustRemainingOriginalSize.y);
+        
         _thrustRemainingImage.color = _thrustColors[(int)((percentFull * 3) - 0.1f)];
     }
 }

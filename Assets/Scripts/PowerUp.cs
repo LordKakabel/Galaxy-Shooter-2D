@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PowerUp : MonoBehaviour
 {
-    private enum Powerup { TripleShot, Speed, Shields, Ammo, Heal, SideShot };
+    private enum Powerup { TripleShot, Speed, Shields, Ammo, Heal, SideShot, DeleteAmmo };
 
     [SerializeField] private float _speed = 3f;
     [SerializeField] private float _yBoundary = -8f;
@@ -48,6 +48,9 @@ public class PowerUp : MonoBehaviour
                         break;
                     case Powerup.SideShot:
                         player.EnableSideShot();
+                        break;
+                    case Powerup.DeleteAmmo:
+                        player.DeleteAmmo();
                         break;
                     default:
                         break;
