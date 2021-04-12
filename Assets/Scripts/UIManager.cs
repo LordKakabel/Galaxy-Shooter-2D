@@ -34,7 +34,7 @@ public class UIManager : MonoBehaviour
         _scoreText.text = "Score: " + score;
     }
 
-    public void UpdateAmmo(int ammo)
+    public void UpdateAmmo(int ammo, int maxAmmo)
     {
         if (ammo == 0)
         {
@@ -45,7 +45,7 @@ public class UIManager : MonoBehaviour
             _ammoText.color = _originalAmmoTextColor;
         }
 
-        _ammoText.text = "Ammo: " + ammo;
+        _ammoText.text = "Ammo: " + ammo + " / " + maxAmmo;
     }
 
     public void UpdateLives(int lives)

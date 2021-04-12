@@ -80,7 +80,7 @@ public class Player : MonoBehaviour
         if (_uiManager == null) { Debug.LogError(name + ": UI Manager not found."); }
 
         _uiManager.UpdateScore(_score);
-        _uiManager.UpdateAmmo(_currentAmmo);
+        _uiManager.UpdateAmmo(_currentAmmo, _maxAmmo);
         _uiManager.UpdateLives(_currentLives);
         _uiManager.UpdateThrusterBar(_currentThrusterTimeRemaining / _maxThrusterTime);
 
@@ -168,7 +168,7 @@ public class Player : MonoBehaviour
     private void FireProjectile()
     {
         _currentAmmo--;
-        _uiManager.UpdateAmmo(_currentAmmo);
+        _uiManager.UpdateAmmo(_currentAmmo, _maxAmmo);
 
         // Reset the cooldown timer
         _nextFire = Time.time + _fireRate;
@@ -260,13 +260,13 @@ public class Player : MonoBehaviour
     public void AmmoRefill()
     {
         _currentAmmo = _maxAmmo;
-        _uiManager.UpdateAmmo(_currentAmmo);
+        _uiManager.UpdateAmmo(_currentAmmo, _maxAmmo);
     }
 
     public void DeleteAmmo()
     {
         _currentAmmo = Mathf.Max(_currentAmmo - _deleteAmmoPowerupAmount, 0);
-        _uiManager.UpdateAmmo(_currentAmmo);
+        _uiManager.UpdateAmmo(_currentAmmo, _maxAmmo);
     }
 
     public void Damage()
