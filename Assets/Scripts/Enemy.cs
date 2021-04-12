@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    [SerializeField] private float _speed = 4f;
+    [SerializeField] protected float _speed = 4f;
     [SerializeField] private float _yRange = 7.5f;
-    [SerializeField] private float _xRange = 9f;
+    [SerializeField] protected float _xRange = 9f;
     [SerializeField] private int _scoreValue = 10;
     [SerializeField] private AnimationClip _deathAnimation = null;
     [SerializeField] private AudioClip _explosionSFX = null;
@@ -24,7 +24,7 @@ public class Enemy : MonoBehaviour
         if (_collider == null) { Debug.LogError(name + ": Collider2D not found."); }
     }
 
-    private void Start()
+    protected virtual void Start()
     {
         _player = FindObjectOfType<Player>();
         if (_player == null) { Debug.LogError(name + ": Player not found."); }
@@ -32,6 +32,11 @@ public class Enemy : MonoBehaviour
 
     // Update is called once per frame
     void Update()
+    {
+        CalculateMovement();
+    }
+
+    protected virtual void CalculateMovement()
     {
         transform.Translate(Vector3.down * _speed * Time.deltaTime);
 
@@ -60,7 +65,7 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    private IEnumerator DestroySelf()
+    protected virtual IEnumerator DestroySelf()
     {
         _animator.SetTrigger("OnEnemyDeath");
         _speed = 0;
