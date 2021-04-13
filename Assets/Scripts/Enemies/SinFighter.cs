@@ -14,9 +14,8 @@ public class SinFighter : Enemy
     private bool _shouldFlip = true;
     private bool _isAlive = true;
 
-    protected override void Start()
+    protected override void SpawnLocation()
     {
-        base.Start();
         _position = _startPosition;
         _axis = transform.right;
     }

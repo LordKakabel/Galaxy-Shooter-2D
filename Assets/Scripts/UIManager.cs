@@ -8,6 +8,7 @@ public class UIManager : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI _scoreText = null;
     [SerializeField] private TextMeshProUGUI _ammoText = null;
+    [SerializeField] private TextMeshProUGUI _waveText = null;
     [SerializeField] private Color _noAmmoTextColor = Color.red;
     [SerializeField] private Image _livesImage = null;
     [SerializeField] private Sprite[] _livesSprites = null;
@@ -75,5 +76,15 @@ public class UIManager : MonoBehaviour
             _thrustRemainingOriginalSize.y);
         
         _thrustRemainingImage.color = _thrustColors[(int)((percentFull * 3) - 0.1f)];
+    }
+
+    public void DisplayWave(int waveNumber)
+    {
+        _waveText.text = "Wave " + waveNumber;
+    }
+
+    public void HideWaveDisplay()
+    {
+        _waveText.text = "";
     }
 }

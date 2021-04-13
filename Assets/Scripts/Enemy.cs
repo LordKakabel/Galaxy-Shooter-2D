@@ -10,10 +10,14 @@ public class Enemy : MonoBehaviour
     [SerializeField] private int _scoreValue = 10;
     [SerializeField] private AnimationClip _deathAnimation = null;
     [SerializeField] private AudioClip _explosionSFX = null;
+    [SerializeField] private float _xSpawnRange = 8f;
+    [SerializeField] private float _ySpawnPoint = 7f;
+    [SerializeField] private float _zSpawnPoint = 0f;
 
     private Player _player;
     private Animator _animator;
     private Collider2D _collider;
+    private SpawnManager _spawnManager;
 
     private void Awake()
     {
@@ -24,10 +28,20 @@ public class Enemy : MonoBehaviour
         if (_collider == null) { Debug.LogError(name + ": Collider2D not found."); }
     }
 
-    protected virtual void Start()
+    private void Start()
     {
         _player = FindObjectOfType<Player>();
         if (_player == null) { Debug.LogError(name + ": Player not found."); }
+
+        _spawnManager = FindObjectOfType<SpawnManager>();
+        if (_spawnManager == null) { Debug.LogError(name + ": SpawnManager not found."); }
+
+        SpawnLocation();
+    }
+
+    protected virtual void SpawnLocation()
+    {
+        transform.position = new Vector3(Random.Range(-_xSpawnRange, _xSpawnRange), _ySpawnPoint, _zSpawnPoint);
     }
 
     // Update is called once per frame
@@ -72,6 +86,7 @@ public class Enemy : MonoBehaviour
         _collider.enabled = false;
         if (GetComponent<EnemyFire>()) { GetComponent<EnemyFire>().CeaseFire(); }
         AudioSource.PlayClipAtPoint(_explosionSFX, transform.position);
+        _spawnManager.EnemyDestroyed();
         yield return new WaitForSeconds(_deathAnimation.length);
         Destroy(gameObject);
     }
