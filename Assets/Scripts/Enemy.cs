@@ -10,9 +10,9 @@ public class Enemy : MonoBehaviour
     [SerializeField] private int _scoreValue = 10;
     [SerializeField] private AnimationClip _deathAnimation = null;
     [SerializeField] private AudioClip _explosionSFX = null;
-    [SerializeField] private float _xSpawnRange = 8f;
-    [SerializeField] private float _ySpawnPoint = 7f;
-    [SerializeField] private float _zSpawnPoint = 0f;
+    [SerializeField] protected float _xSpawnRange = 8f;
+    [SerializeField] protected float _ySpawnPoint = 7f;
+    [SerializeField] protected float _zSpawnPoint = 0f;
     [SerializeField] private bool _canPenetrateShield = false;
 
     private Player _player;
