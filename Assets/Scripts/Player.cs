@@ -289,11 +289,11 @@ public class Player : MonoBehaviour
         _uiManager.UpdateAmmo(_currentAmmo, _maxAmmo);
     }
 
-    public void Damage()
+    public void Damage(bool canPenetrateShield)
     {
         _cameraShake.Shake();
 
-        if (_isShieldActive)
+        if (_isShieldActive && !canPenetrateShield)
         {
             DamageShield();
             return;
@@ -359,8 +359,12 @@ public class Player : MonoBehaviour
     {
         if (collision.CompareTag("Enemy Laser") && !_isInvincible)
         {
-            Damage();
-            Destroy(collision.transform.parent.gameObject);
+            Laser laser = collision.GetComponent<Laser>();
+            if (laser)
+            {
+                Damage(laser.CanPenetrateShield());
+                Destroy(collision.transform.parent.gameObject);
+            }
         }
     }
 

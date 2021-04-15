@@ -13,6 +13,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] private float _xSpawnRange = 8f;
     [SerializeField] private float _ySpawnPoint = 7f;
     [SerializeField] private float _zSpawnPoint = 0f;
+    [SerializeField] private bool _canPenetrateShield = false;
 
     private Player _player;
     private Animator _animator;
@@ -74,7 +75,7 @@ public class Enemy : MonoBehaviour
         }
         else if (collision.CompareTag("Player"))
         {
-            collision.transform.GetComponent<Player>().Damage();
+            collision.transform.GetComponent<Player>().Damage(_canPenetrateShield);
             StartCoroutine(DestroySelf());
         }
     }

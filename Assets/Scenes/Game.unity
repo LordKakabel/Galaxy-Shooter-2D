@@ -443,6 +443,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _speed: 5
   _speedBoostMultiplier: 1.5
+  _speedDecreaseMultiplier: 0.5
   _xBoundary: 9
   _yTopBoundary: 0
   _yBottomBoundary: -3.5
@@ -1297,12 +1298,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enemyContainer: {fileID: 1720871188}
-  _enemyPrefab: {fileID: 7177092913575048356, guid: 440c624f47d1cef47b42b217244f9bed,
-    type: 3}
   _xSpawnRange: 8
   _ySpawnPoint: 7
   _zSpawnPoint: 0
-  _spawnDelay: 5
   _powerupPrefabs:
   - {fileID: 3176043251145414301, guid: 93c146cc372c8854dbc51f876b081682, type: 3}
   - {fileID: 3176043251145414301, guid: 93c146cc372c8854dbc51f876b081682, type: 3}
@@ -1317,7 +1315,6 @@ MonoBehaviour:
   - {fileID: 8211858188093097422, guid: d9ef2853b162b0949934024e9e5ba472, type: 3}
   _powerupSpawnDelayMin: 3
   _powerupSpawnDelayMax: 7
-  _enemyBeginSpawningDelay: 2
   _powerupBeginSpawningDelay: 5
   _waveEntries:
   - GameObjectPrefab: {fileID: 5554423369706256121, guid: 440c624f47d1cef47b42b217244f9bed,

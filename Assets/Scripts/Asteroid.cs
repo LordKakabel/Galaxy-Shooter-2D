@@ -35,7 +35,7 @@ public class Asteroid : MonoBehaviour
         }
         else if (collision.CompareTag("Player"))
         {
-            collision.transform.GetComponent<Player>().Damage();
+            collision.transform.GetComponent<Player>().Damage(false);
             DestroySelf();
         }
     }

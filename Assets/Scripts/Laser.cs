@@ -6,6 +6,7 @@ public class Laser : MonoBehaviour
 {
     [SerializeField] private float _speed = 8f;
     [SerializeField] private float _yBoundary = 8f;
+    [SerializeField] private bool _canPenetrateShield = false;
 
     private void Start()
     {
@@ -28,5 +29,10 @@ public class Laser : MonoBehaviour
 
             Destroy(gameObject);
         }
+    }
+
+    public bool CanPenetrateShield()
+    {
+        return _canPenetrateShield;
     }
 }
