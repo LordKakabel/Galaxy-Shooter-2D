@@ -7,6 +7,7 @@ public class Player : MonoBehaviour
 {
     [SerializeField] private float _speed = 3.5f;
     [SerializeField] private float _speedBoostMultiplier = 1.5f;
+    [SerializeField] private float _speedDecreaseMultiplier = 0.5f;
     [SerializeField] private float _xBoundary = 9f;
     [SerializeField] private float _yTopBoundary = 0f;
     [SerializeField] private float _yBottomBoundary = -3.5f;
@@ -39,6 +40,7 @@ public class Player : MonoBehaviour
     private bool _isTripleShotActive = false;
     private bool _isSideShotActive = false;
     private bool _isSpeedBoostActive = false;
+    private bool _isSpeedDecreaseActive = false;
     private bool _isShieldActive = false;
     private int _score = 0;
     private UIManager _uiManager;
@@ -110,9 +112,15 @@ public class Player : MonoBehaviour
         float verticalInput = Input.GetAxis("Vertical");
 
         float speed = _speed;
+
         if (_isSpeedBoostActive)
         {
             speed *= _speedBoostMultiplier;
+        }
+
+        if (_isSpeedDecreaseActive)
+        {
+            speed *= _speedDecreaseMultiplier;
         }
 
         if (Input.GetKeyDown(KeyCode.LeftShift)
@@ -227,6 +235,18 @@ public class Player : MonoBehaviour
     {
         yield return new WaitForSeconds(_powerupDuration);
         _isSpeedBoostActive = false;
+    }
+
+    public void SpeedDecrease()
+    {
+        _isSpeedDecreaseActive = true;
+        StartCoroutine(SpeedDecreaseTimer());
+    }
+
+    private IEnumerator SpeedDecreaseTimer()
+    {
+        yield return new WaitForSeconds(_powerupDuration);
+        _isSpeedDecreaseActive = false;
     }
 
     public void EnableShield()

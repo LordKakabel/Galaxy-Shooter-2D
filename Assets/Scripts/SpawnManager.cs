@@ -16,15 +16,15 @@ public class WaveEntry
 public class SpawnManager : MonoBehaviour
 {
     [SerializeField] private Transform _enemyContainer = null;
-    [SerializeField] private Transform _enemyPrefab = null;
+    //[SerializeField] private Transform _enemyPrefab = null;
     [SerializeField] private float _xSpawnRange = 8f;
     [SerializeField] private float _ySpawnPoint = 7f;
     [SerializeField] private float _zSpawnPoint = 0f;
-    [SerializeField] private float _spawnDelay = 5f;
+    //[SerializeField] private float _spawnDelay = 5f;
     [SerializeField] private Transform[] _powerupPrefabs = null;
     [SerializeField] private int _powerupSpawnDelayMin = 3;
     [SerializeField] private int _powerupSpawnDelayMax = 7;
-    [SerializeField] private float _enemyBeginSpawningDelay = 2f;
+    //[SerializeField] private float _enemyBeginSpawningDelay = 2f;
     [SerializeField] private float _powerupBeginSpawningDelay = 5f;
     [SerializeField] private WaveEntry[] _waveEntries;
     [SerializeField] private int _enemiesInWave1 = 5;
