@@ -54,41 +54,37 @@ public class NullScout : Enemy
             Quaternion q = Quaternion.AngleAxis(angle, Vector3.forward);
             transform.rotation = Quaternion.Slerp(transform.rotation, q, Time.deltaTime * _speed);
 
-        }
-
-        // If close to destination,
-        if (Vector3.Distance(transform.position, _destination) < 0.001f)
-        {
-            if (_state == State.Descending)
+            // If close to destination,
+            if (Vector3.Distance(transform.position, _destination) < 0.001f)
             {
-                //? Should be Firing
-                _state = State.Ascending;
+                if (_state == State.Descending)
+                {
+                    // Set new destination
+                    _destination = new Vector3(transform.position.x, _ySpawnPoint, _zSpawnPoint);
 
-                // Set new destination
-                _destination = new Vector3(transform.position.x, _ySpawnPoint, _zSpawnPoint);
-
-                //? StartCoroutine Wait while firing ray
-                //? Need to point stright down while firing
-            }
-            else if (_state == State.Ascending)
-            {
-                SetDestination();
+                    // Hover while firing ray
+                    StartCoroutine(Hover());
+                }
+                else if (_state == State.Ascending)
+                {
+                    SetDestination();
+                }
             }
         }
-        
-
-
-
-
-        //transform.Translate(Vector3.down * _speed * Time.deltaTime);
-
-        // Respawn at top of screen with a random x position
-        /*if (transform.position.y < -_yRange)
+        else
         {
-            transform.position = new Vector3(
-                Random.Range(-_xRange, _xRange),
-                _yRange,
-                transform.position.z);
-        }*/
+            // Point stright down while hovering
+            Vector3 vectorToTarget = Vector3.down;
+            float angle = (Mathf.Atan2(vectorToTarget.y, vectorToTarget.x) * Mathf.Rad2Deg) + 90f;
+            Quaternion q = Quaternion.AngleAxis(angle, Vector3.forward);
+            transform.rotation = Quaternion.Slerp(transform.rotation, q, Time.deltaTime * _speed);
+        }
+    }
+
+    private IEnumerator Hover()
+    {
+        _state = State.Firing;
+        yield return new WaitForSeconds(_delayAtDestination);
+        _state = State.Ascending;
     }
 }
