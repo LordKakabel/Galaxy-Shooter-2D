@@ -6,6 +6,7 @@ public class NullScout : Enemy
 {
     [SerializeField] private float _yDestination = 0f;
     [SerializeField] private float _delayAtDestination = 3f;
+    [SerializeField] private NullBeam _nullBeam = null;
 
     private Vector3 _destination;
     private enum State { Descending, Firing, Ascending };
@@ -84,7 +85,10 @@ public class NullScout : Enemy
     private IEnumerator Hover()
     {
         _state = State.Firing;
+        _nullBeam.gameObject.SetActive(true);
+        _nullBeam.ShootBeam(_delayAtDestination);
         yield return new WaitForSeconds(_delayAtDestination);
+        _nullBeam.gameObject.SetActive(false);
         _state = State.Ascending;
     }
 }

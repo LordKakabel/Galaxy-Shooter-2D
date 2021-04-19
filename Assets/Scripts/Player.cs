@@ -14,7 +14,7 @@ public class Player : MonoBehaviour
     [SerializeField] private Transform _pfProjectile = null;
     [SerializeField] private Transform _pfTripleShotProjectile = null;
     [SerializeField] private Transform _pfSideShotProjectile = null;
-    [SerializeField] private Vector3 _projectileOffset = new Vector3 (0, 0.75f, 0);
+    [SerializeField] private Vector3 _projectileOffset = new Vector3(0, 0.75f, 0);
     [SerializeField] private float _fireRate = 0.5f;
     [SerializeField] private int _maxLives = 3;
     [SerializeField] private float _powerupDuration = 5f;
@@ -37,7 +37,7 @@ public class Player : MonoBehaviour
     private float _nextFire = 0f;
     private GameManager _gameManager;
     private SpawnManager _spawnManager;
-    private bool _isTripleShotActive = false;
+    [SerializeField] private bool _isTripleShotActive = false;
     private bool _isSideShotActive = false;
     private bool _isSpeedBoostActive = false;
     private bool _isSpeedDecreaseActive = false;
@@ -52,6 +52,9 @@ public class Player : MonoBehaviour
     private float _currentThrusterTimeRemaining;
     private bool _areThrustersActive = false;
     private CameraShake _cameraShake;
+    private Coroutine _tripleShotCoroutine;
+    private Coroutine _sideShotCoroutine;
+    private Coroutine _speedBoostCoroutine;
 
     private void Awake()
     {
@@ -65,7 +68,7 @@ public class Player : MonoBehaviour
     {
         _shieldSpriteRenderer = _shield.GetComponent<SpriteRenderer>();
         if (!_shieldSpriteRenderer) Debug.LogError(name + ": Cannot find shield object's Sprite Renderer.");
-        
+
         _gameManager = FindObjectOfType<GameManager>();
         if (_gameManager == null)
         {
@@ -124,7 +127,7 @@ public class Player : MonoBehaviour
         }
 
         if (Input.GetKeyDown(KeyCode.LeftShift)
-            && _currentThrusterTimeRemaining/_maxThrusterTime > _minThrusterThreshold)
+            && _currentThrusterTimeRemaining / _maxThrusterTime > _minThrusterThreshold)
         {
             _areThrustersActive = true;
         }
@@ -203,14 +206,16 @@ public class Player : MonoBehaviour
 
     public void EnableTripleShot()
     {
+        if (_tripleShotCoroutine != null) StopCoroutine(_tripleShotCoroutine);
         _isTripleShotActive = true;
-        StartCoroutine(TripleShotTimer());
+        _tripleShotCoroutine = StartCoroutine(TripleShotTimer());
     }
 
     public void EnableSideShot()
     {
+        if (_sideShotCoroutine != null) StopCoroutine(_sideShotCoroutine);
         _isSideShotActive = true;
-        StartCoroutine(SideShotTimer());
+        _sideShotCoroutine = StartCoroutine(SideShotTimer());
     }
 
     private IEnumerator TripleShotTimer()
@@ -227,6 +232,7 @@ public class Player : MonoBehaviour
 
     public void EnableSpeedBoost()
     {
+        if (_speedBoostCoroutine != null) StopCoroutine(_speedBoostCoroutine);
         _isSpeedBoostActive = true;
         StartCoroutine(SpeedBoostTimer());
     }
@@ -375,5 +381,21 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(_invincibilityDuration);
         _isInvincible = false;
         _hullDamage.SetActive(false);
+    }
+
+    public void DestroyPowerups()
+    {
+        if (_tripleShotCoroutine != null) StopCoroutine(_tripleShotCoroutine);
+        _isTripleShotActive = false;
+
+        if (_sideShotCoroutine != null) StopCoroutine(_sideShotCoroutine);
+        _isSideShotActive = false;
+
+        if (_speedBoostCoroutine != null) StopCoroutine(_speedBoostCoroutine);
+        _isSpeedBoostActive = false;
+
+        _isShieldActive = false;
+        _shield.SetActive(false);
+        _currentShieldHealth = 0;
     }
 }
