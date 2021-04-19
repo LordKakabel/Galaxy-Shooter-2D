@@ -9,24 +9,19 @@ public class WaveEntry
 {
     public GameObject GameObjectPrefab = null;
     public int StartingWave = 1;
-    [Tooltip("Three is three times as rare as one, two is twice as rare as one.")]
+    [Tooltip("Three is three times as common as one, two is twice as common as one.")]
     public int RarityWeight = 1;
 }
 
 public class SpawnManager : MonoBehaviour
 {
     [SerializeField] private Transform _enemyContainer = null;
-    //[SerializeField] private Transform _enemyPrefab = null;
+    [SerializeField] private Transform _powerupContainer = null;
     [SerializeField] private float _xSpawnRange = 8f;
     [SerializeField] private float _ySpawnPoint = 7f;
     [SerializeField] private float _zSpawnPoint = 0f;
-    //[SerializeField] private float _spawnDelay = 5f;
-    [SerializeField] private Transform[] _powerupPrefabs = null;
-    [SerializeField] private int _powerupSpawnDelayMin = 3;
-    [SerializeField] private int _powerupSpawnDelayMax = 7;
-    //[SerializeField] private float _enemyBeginSpawningDelay = 2f;
-    [SerializeField] private float _powerupBeginSpawningDelay = 5f;
-    [SerializeField] private WaveEntry[] _waveEntries;
+    [SerializeField] private WaveEntry[] _enemyWaveEntries;
+    [SerializeField] private WaveEntry[] _powerupWaveEntries;
     [SerializeField] private int _enemiesInWave1 = 5;
     [SerializeField] private float _minSpawnDelayWave1 = 5f;
     [SerializeField] private float _maxSpawnDelayWave1 = 7f;
@@ -37,7 +32,8 @@ public class SpawnManager : MonoBehaviour
 
     private bool _continueSpawning = true;
     private int _waveNumber = 1;
-    private List<WaveEntry> _waveTable;
+    private List<WaveEntry> _enemyWaveTable;
+    private List<WaveEntry> _powerupWaveTable;
     private int _enemiesRemaining;
     private UIManager _uiManager;
 
@@ -49,33 +45,31 @@ public class SpawnManager : MonoBehaviour
 
     public void BeginSpawning()
     {
-        //StartCoroutine(SpawnEnemyRoutine());
         StartCoroutine(SpawnPowerupRoutine());
         StartCoroutine(PopulateWave());
     }
 
-    /*private IEnumerator SpawnEnemyRoutine()
-    {
-        yield return new WaitForSeconds(_enemyBeginSpawningDelay);
-
-        while (_continueSpawning)
-        {
-            Vector3 spawnPosition = new Vector3(Random.Range(-_xSpawnRange, _xSpawnRange), _ySpawnPoint, _zSpawnPoint);
-            Instantiate(_enemyPrefab, spawnPosition, Quaternion.identity, _enemyContainer);
-            yield return new WaitForSeconds(_spawnDelay);
-        }
-    }*/
-
     private IEnumerator SpawnPowerupRoutine()
     {
-        yield return new WaitForSeconds(_powerupBeginSpawningDelay);
-
         while (_continueSpawning)
         {
-            Vector3 spawnPosition = new Vector3(Random.Range(-_xSpawnRange, _xSpawnRange), _ySpawnPoint, _zSpawnPoint);
-            int powerupIndex = Random.Range(0, _powerupPrefabs.Length);
-            Instantiate(_powerupPrefabs[powerupIndex], spawnPosition, Quaternion.identity);
-            yield return new WaitForSeconds(Random.Range(_powerupSpawnDelayMin, _powerupSpawnDelayMax + 1));
+            yield return new WaitForSeconds(Random.Range(
+                _minSpawnDelayWave1 / Mathf.Pow(_waveNumber, 1 / _rootDivisor),
+                _maxSpawnDelayWave1 / Mathf.Pow(_waveNumber, 1 / _rootDivisor)));
+
+            if (!_continueSpawning) break;
+
+            int index = Random.Range(0, _powerupWaveTable.Count);
+
+            Vector3 spawnPosition = new Vector3(
+                Random.Range(-_xSpawnRange, _xSpawnRange),
+                _ySpawnPoint,
+                _zSpawnPoint);
+
+            Instantiate(_powerupWaveTable[index].GameObjectPrefab,
+                spawnPosition,
+                _powerupWaveTable[index].GameObjectPrefab.transform.rotation,
+                _powerupContainer);
         }
     }
 
@@ -93,14 +87,26 @@ public class SpawnManager : MonoBehaviour
         // Turn off wave display
         _uiManager.HideWaveDisplay();
 
-        _waveTable = new List<WaveEntry>();
-        foreach (var waveEntry in _waveEntries)
+        _enemyWaveTable = new List<WaveEntry>();
+        foreach (var waveEntry in _enemyWaveEntries)
         {
             if (waveEntry.StartingWave <= _waveNumber)
             {
                 for (int i = 0; i < waveEntry.RarityWeight; i++)
                 {
-                    _waveTable.Add(waveEntry);
+                    _enemyWaveTable.Add(waveEntry);
+                }
+            }
+        }
+
+        _powerupWaveTable = new List<WaveEntry>();
+        foreach (var waveEntry in _powerupWaveEntries)
+        {
+            if (waveEntry.StartingWave <= _waveNumber)
+            {
+                for (int i = 0; i < waveEntry.RarityWeight; i++)
+                {
+                    _powerupWaveTable.Add(waveEntry);
                 }
             }
         }
@@ -122,11 +128,11 @@ public class SpawnManager : MonoBehaviour
 
             if (!_continueSpawning) break;
 
-            int index = Random.Range(0, _waveTable.Count);
+            int index = Random.Range(0, _enemyWaveTable.Count);
 
-            Instantiate(_waveTable[index].GameObjectPrefab,
+            Instantiate(_enemyWaveTable[index].GameObjectPrefab,
                 _offscreenSpawnPoint,
-                _waveTable[index].GameObjectPrefab.transform.rotation,
+                _enemyWaveTable[index].GameObjectPrefab.transform.rotation,
                 _enemyContainer);
         }
     }

@@ -1299,33 +1299,56 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enemyContainer: {fileID: 1720871188}
+  _powerupContainer: {fileID: 2087822580}
   _xSpawnRange: 8
-  _ySpawnPoint: 7
+  _ySpawnPoint: 7.5
   _zSpawnPoint: 0
-  _powerupPrefabs:
-  - {fileID: 3176043251145414301, guid: 93c146cc372c8854dbc51f876b081682, type: 3}
-  - {fileID: 3176043251145414301, guid: 93c146cc372c8854dbc51f876b081682, type: 3}
-  - {fileID: 3176043251145414301, guid: 93c146cc372c8854dbc51f876b081682, type: 3}
-  - {fileID: 6550612046096754759, guid: 123e4808dac129b47ab7c81e26831239, type: 3}
-  - {fileID: 6550612046096754759, guid: 123e4808dac129b47ab7c81e26831239, type: 3}
-  - {fileID: 6550612046096754759, guid: 123e4808dac129b47ab7c81e26831239, type: 3}
-  - {fileID: 4179367131703973158, guid: 8d70180c6bbbc414badbbaaab8a0b775, type: 3}
-  - {fileID: 4179367131703973158, guid: 8d70180c6bbbc414badbbaaab8a0b775, type: 3}
-  - {fileID: 3681058126467331910, guid: cfcef6b63732c8042a7e122c33b19d05, type: 3}
-  - {fileID: 2196265275475744099, guid: fcb866fd2dad4334db60241ce3045c7a, type: 3}
-  - {fileID: 8211858188093097422, guid: d9ef2853b162b0949934024e9e5ba472, type: 3}
-  _powerupSpawnDelayMin: 3
-  _powerupSpawnDelayMax: 7
-  _powerupBeginSpawningDelay: 5
-  _waveEntries:
+  _enemyWaveEntries:
   - GameObjectPrefab: {fileID: 5554423369706256121, guid: 440c624f47d1cef47b42b217244f9bed,
       type: 3}
     StartingWave: 1
-    RarityWeight: 2
+    RarityWeight: 3
   - GameObjectPrefab: {fileID: 6834535588113980467, guid: 7761970285a95a94d945d07033204c25,
       type: 3}
     StartingWave: 2
+    RarityWeight: 2
+  - GameObjectPrefab: {fileID: 6595833255920695196, guid: a96508d16e322d444b94388e9e67531d,
+      type: 3}
+    StartingWave: 3
     RarityWeight: 1
+  _powerupWaveEntries:
+  - GameObjectPrefab: {fileID: 1223824561702564058, guid: caf6c8f06c1c87741bf484fd2faae222,
+      type: 3}
+    StartingWave: 3
+    RarityWeight: 2
+  - GameObjectPrefab: {fileID: 3176043251145414294, guid: 93c146cc372c8854dbc51f876b081682,
+      type: 3}
+    StartingWave: 1
+    RarityWeight: 3
+  - GameObjectPrefab: {fileID: 3681058126467331917, guid: cfcef6b63732c8042a7e122c33b19d05,
+      type: 3}
+    StartingWave: 1
+    RarityWeight: 1
+  - GameObjectPrefab: {fileID: 6091049154754395190, guid: fcb866fd2dad4334db60241ce3045c7a,
+      type: 3}
+    StartingWave: 1
+    RarityWeight: 2
+  - GameObjectPrefab: {fileID: 8211858188093097413, guid: d9ef2853b162b0949934024e9e5ba472,
+      type: 3}
+    StartingWave: 3
+    RarityWeight: 1
+  - GameObjectPrefab: {fileID: 3956419045031786691, guid: d6693f334cc5fb54aa8075b46e441621,
+      type: 3}
+    StartingWave: 3
+    RarityWeight: 2
+  - GameObjectPrefab: {fileID: 1158834392645763346, guid: 123e4808dac129b47ab7c81e26831239,
+      type: 3}
+    StartingWave: 1
+    RarityWeight: 3
+  - GameObjectPrefab: {fileID: 4179367131703973165, guid: 8d70180c6bbbc414badbbaaab8a0b775,
+      type: 3}
+    StartingWave: 1
+    RarityWeight: 2
   _enemiesInWave1: 5
   _minSpawnDelayWave1: 5
   _maxSpawnDelayWave1: 7
@@ -1344,6 +1367,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1720871188}
+  - {fileID: 2087822580}
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2880,6 +2904,36 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 600, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &2087822579
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2087822580}
+  m_Layer: 0
+  m_Name: Powerup Container
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2087822580
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2087822579}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1052859023}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &2733048166792812595
 PrefabInstance:
   m_ObjectHideFlags: 0
