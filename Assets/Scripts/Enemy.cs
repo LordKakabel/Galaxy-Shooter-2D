@@ -14,11 +14,15 @@ public class Enemy : MonoBehaviour
     [SerializeField] protected float _ySpawnPoint = 7f;
     [SerializeField] protected float _zSpawnPoint = 0f;
     [SerializeField] private bool _canPenetrateShield = false;
+    [SerializeField] private GameObject _shieldPrefab = null;
+    [SerializeField] private float _shieldPercentage = .10f;
 
     private Player _player;
     private Animator _animator;
     private Collider2D _collider;
     private SpawnManager _spawnManager;
+    private bool _isShieldActive = false;
+    private GameObject _shield;
 
     private void Awake()
     {
@@ -36,6 +40,11 @@ public class Enemy : MonoBehaviour
 
         _spawnManager = FindObjectOfType<SpawnManager>();
         if (_spawnManager == null) { Debug.LogError(name + ": SpawnManager not found."); }
+
+        if (Random.Range(0, 1f) < _shieldPercentage)
+        {
+            ActivateShields();
+        }
 
         SpawnLocation();
     }
@@ -69,14 +78,32 @@ public class Enemy : MonoBehaviour
     {
         if (collision.CompareTag("Laser"))
         {
-            _player.AddScore(_scoreValue);
-            Destroy(collision.gameObject);
-            StartCoroutine(DestroySelf());
+            if (_isShieldActive)
+            {
+                _isShieldActive = false;
+                Destroy(collision.gameObject);
+                _shield.SetActive(false);
+            }
+            else
+            {
+                _player.AddScore(_scoreValue);
+                Destroy(collision.gameObject);
+                StartCoroutine(DestroySelf());
+            }
         }
         else if (collision.CompareTag("Player"))
         {
-            collision.transform.GetComponent<Player>().Damage(_canPenetrateShield);
-            StartCoroutine(DestroySelf());
+            if (_isShieldActive)
+            {
+                _isShieldActive = false;
+                collision.transform.GetComponent<Player>().Damage(_canPenetrateShield);
+                Destroy(_shield);
+            }
+            else
+            {
+                collision.transform.GetComponent<Player>().Damage(_canPenetrateShield);
+                StartCoroutine(DestroySelf());
+            }
         }
     }
 
@@ -90,5 +117,12 @@ public class Enemy : MonoBehaviour
         _spawnManager.EnemyDestroyed();
         yield return new WaitForSeconds(_deathAnimation.length);
         Destroy(gameObject);
+    }
+
+    private void ActivateShields()
+    {
+        _shield = Instantiate(_shieldPrefab, transform.position, Quaternion.identity, transform);
+        _shield.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, 0.5f);
+        _isShieldActive = true;
     }
 }

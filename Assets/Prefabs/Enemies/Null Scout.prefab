@@ -52,13 +52,16 @@ MonoBehaviour:
   _speed: 4
   _yRange: 9
   _xRange: 9
-  _scoreValue: 50
+  _scoreValue: 30
   _deathAnimation: {fileID: 7400000, guid: 777d3a6f4db1fdd4f8a0f7b77e66cd40, type: 2}
   _explosionSFX: {fileID: 8300000, guid: a885c043fab7e46438bba03ba9dab6bc, type: 3}
   _xSpawnRange: 8
   _ySpawnPoint: 9
   _zSpawnPoint: 0
   _canPenetrateShield: 0
+  _shieldPrefab: {fileID: 951233325158996276, guid: 7b0a8384e5d285147b8ec005eacc977a,
+    type: 3}
+  _shieldPercentage: 0.3
   _yDestination: 0
   _delayAtDestination: 3
   _nullBeam: {fileID: 8073315455598273656}
