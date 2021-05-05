@@ -8,6 +8,7 @@ public class BulkCruiser : Enemy
     [SerializeField] private float _detectionRadius = 3f;
     [SerializeField] private float _rammingSpeed = 7f;
     [SerializeField] private float _xBoundary = 15f;
+    [SerializeField] private Transform _directionProbe = null;
 
     private enum State { Cruising, Tracking, Ramming };
     private State _state = State.Cruising;
@@ -51,8 +52,19 @@ public class BulkCruiser : Enemy
 
     private void AlignWithPlayer()
     {
-        //? Rotate along z-axis (using _speed) toward the position where the player was detected
-        //? until a forward-facing ray hits the player, then switch to Ramming
+        // Rotate along z-axis (using _speed) toward the position where the player was detected
+        Vector3 vectorToTarget = _playersDetectedPosition - transform.position;
+        float angle = (Mathf.Atan2(vectorToTarget.y, vectorToTarget.x) * Mathf.Rad2Deg) + 90f;
+        Quaternion q = Quaternion.AngleAxis(angle, Vector3.forward);
+        transform.rotation = Quaternion.Slerp(transform.rotation, q, Time.deltaTime * _speed);
+
+        // If a forward-facing ray hits the player, then switch to Ramming
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, _directionProbe.position - transform.position, Mathf.Infinity, _layerMask);
+        if (hit.collider != null)
+        {
+            //Debug.Log(hit.collider.
+            _state = State.Ramming;
+        }
     }
 
     private void Ram()
