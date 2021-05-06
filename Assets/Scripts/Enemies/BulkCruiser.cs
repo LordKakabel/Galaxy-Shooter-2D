@@ -59,10 +59,13 @@ public class BulkCruiser : Enemy
         transform.rotation = Quaternion.Slerp(transform.rotation, q, Time.deltaTime * _speed);
 
         // If a forward-facing ray hits the player, then switch to Ramming
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, _directionProbe.position - transform.position, Mathf.Infinity, _layerMask);
+        RaycastHit2D hit = Physics2D.Raycast(
+            transform.position,
+            _directionProbe.position - transform.position,
+            Mathf.Infinity,
+            _layerMask);
         if (hit.collider != null)
         {
-            //Debug.Log(hit.collider.
             _state = State.Ramming;
         }
     }

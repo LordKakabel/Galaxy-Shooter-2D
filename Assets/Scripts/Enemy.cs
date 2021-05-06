@@ -16,7 +16,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] private bool _canPenetrateShield = false;
     [SerializeField] private GameObject _shieldPrefab = null;
     [SerializeField] private float _shieldPercentage = .10f;
-
+    
     private Player _player;
     private Animator _animator;
     private Collider2D _collider;
