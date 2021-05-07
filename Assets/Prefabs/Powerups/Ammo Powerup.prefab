@@ -110,7 +110,7 @@ GameObject:
   - component: {fileID: 3176043251145414290}
   - component: {fileID: 3176043251145414288}
   - component: {fileID: 6363463025761047680}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Ammo Powerup
   m_TagString: Power Up
   m_Icon: {fileID: 0}

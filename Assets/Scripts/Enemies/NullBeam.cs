@@ -62,8 +62,6 @@ public class NullBeam : MonoBehaviour
         _state = State.Off;
     }
 
-    //? ON Coll call player's Destroy ALL
-    //? If a power-up, destory it
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))

@@ -9,13 +9,18 @@ public class EnemyFire : MonoBehaviour
     [SerializeField] private AudioClip _laserSFX = null;
     [SerializeField] private float _minFireCooldown = 3f;
     [SerializeField] private float _maxFireCooldown = 7f;
-    [SerializeField] private float _rearViewDetectionWidth = 0.5f;
+    [SerializeField] private float _rearSensorDetectionWidth = 0.5f;
     [SerializeField] private bool _canFireToRear = false;
     [SerializeField] private Vector3 _rearProjectileOffset = new Vector3(0, 0.5f, 0);
+    [SerializeField] private bool _willAttackPowerups = false;
+    [SerializeField] private Transform _sensorPosition = null;
+    [SerializeField] private Vector2 _sensorBoxSize = new Vector2(1f, 16f);
+    [SerializeField] private LayerMask _powerupLayerMask = 0;
 
     private float _nextFire;
     private bool _isFiring = true;
     private Player _player;
+    private bool _hasTakenPowerupShot = false;
 
     private void Start()
     {
@@ -27,8 +32,12 @@ public class EnemyFire : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (_willAttackPowerups) DetectPowerup();
+
         if (Time.time > _nextFire && _isFiring)
         {
+            _hasTakenPowerupShot = false;
+
             if (_canFireToRear && CheckRearView())
             {
                 FireRearProjectile();
@@ -66,12 +75,27 @@ public class EnemyFire : MonoBehaviour
         if (transform.position.y < _player.transform.position.y)
         {
             // If the Player's X is within our detection width,
-            if (Mathf.Abs(transform.position.x - _player.transform.position.x) <= _rearViewDetectionWidth)
+            if (Mathf.Abs(transform.position.x - _player.transform.position.x) <= _rearSensorDetectionWidth)
             {
                 return true;
             }
         }
 
         return false;
+    }
+
+    private void DetectPowerup()
+    {
+        if (!_hasTakenPowerupShot)
+        {
+            Collider2D collider = Physics2D.OverlapBox(_sensorPosition.position, _sensorBoxSize, 0f, _powerupLayerMask); ;
+            
+            if (collider)
+            {
+                Debug.Log(collider.name);
+                FireProjectile();
+                _hasTakenPowerupShot = true;
+            }
+        }
     }
 }

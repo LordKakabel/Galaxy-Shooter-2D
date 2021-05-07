@@ -22,17 +22,31 @@ public class Laser : MonoBehaviour
 
         if (Mathf.Abs(transform.position.y) > _yBoundary)
         {
-            if (transform.parent != null)
-            {
-                Destroy(transform.parent.gameObject);
-            }
-
-            Destroy(gameObject);
+            DestroySelf();
         }
+    }
+
+    private void DestroySelf()
+    {
+        if (transform.parent != null)
+        {
+            Destroy(transform.parent.gameObject);
+        }
+
+        Destroy(gameObject);
     }
 
     public bool CanPenetrateShield()
     {
         return _canPenetrateShield;
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Power Up"))
+        {
+            Destroy(collision.gameObject);
+            DestroySelf();
+        }
     }
 }
