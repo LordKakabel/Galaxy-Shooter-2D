@@ -30,9 +30,13 @@ public class Player : MonoBehaviour
     [SerializeField] private int _maxAmmo = 15;
     [SerializeField] private float _maxThrusterTime = 5f;
     [SerializeField] private float _minThrusterThreshold = 0.33f;
-    [Tooltip("The higher this number, the slower ther thrusters will recharge. Cannot be 0.")]
+    [Tooltip("The higher this number, the slower the thrusters will recharge. Cannot be 0.")]
     [SerializeField] private float _thrusterRechargeDivisor = 3f;
     [SerializeField] private int _deleteAmmoPowerupAmount = 5;
+    [SerializeField] private float _tractorBeamDrawSpeed = 1.5f;
+    [SerializeField] private float _maxTractorBeamTime = 3f;
+    [Tooltip("The higher this number, the slower the tractor beam will recharge. Cannot be 0.")]
+    [SerializeField] private float _tractorBeamRechargeDivisor = 2f;
 
     private float _nextFire = 0f;
     private GameManager _gameManager;
@@ -55,12 +59,14 @@ public class Player : MonoBehaviour
     private Coroutine _tripleShotCoroutine;
     private Coroutine _sideShotCoroutine;
     private Coroutine _speedBoostCoroutine;
+    private float _currentTractorBeamTimeRemaining;
 
     private void Awake()
     {
         _currentLives = _maxLives;
         _currentAmmo = _maxAmmo;
         _currentThrusterTimeRemaining = _maxThrusterTime;
+        _currentTractorBeamTimeRemaining = _maxTractorBeamTime;
     }
 
     // Start is called before the first frame update
@@ -88,6 +94,7 @@ public class Player : MonoBehaviour
         _uiManager.UpdateAmmo(_currentAmmo, _maxAmmo);
         _uiManager.UpdateLives(_currentLives);
         _uiManager.UpdateThrusterBar(_currentThrusterTimeRemaining / _maxThrusterTime);
+        _uiManager.UpdateTractorBeamBar(_currentTractorBeamTimeRemaining / _maxTractorBeamTime);
 
         _cameraShake = FindObjectOfType<CameraShake>();
         if (!_cameraShake) Debug.LogError(name + ": CameraShake object not found.");
@@ -103,7 +110,37 @@ public class Player : MonoBehaviour
             FireProjectile();
         }
 
+        TractorBeam();
+
         _uiManager.UpdateThrusterBar(_currentThrusterTimeRemaining / _maxThrusterTime);
+        _uiManager.UpdateTractorBeamBar(_currentTractorBeamTimeRemaining / _maxTractorBeamTime);
+    }
+
+    private void TractorBeam()
+    {
+        if (Input.GetKey(KeyCode.C) && _currentTractorBeamTimeRemaining > 0)
+        {
+            // Find all power-ups on the screen
+            GameObject[] powerups = GameObject.FindGameObjectsWithTag("Power Up");
+
+            // Move the powerups towards player's position
+            foreach (var powerup in powerups)
+            {
+                powerup.transform.Translate(
+                    (transform.position - powerup.transform.position).normalized
+                    * _tractorBeamDrawSpeed
+                    * Time.deltaTime);
+
+            }
+
+            _currentTractorBeamTimeRemaining = Mathf.Max(_currentTractorBeamTimeRemaining - Time.deltaTime, 0);
+        }
+        else
+        {
+            _currentTractorBeamTimeRemaining = Mathf.Min(
+                _currentTractorBeamTimeRemaining + (Time.deltaTime / _tractorBeamRechargeDivisor),
+                _maxTractorBeamTime);
+        }
     }
 
     void CalculateMovement()

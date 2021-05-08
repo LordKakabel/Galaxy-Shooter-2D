@@ -25,6 +25,11 @@ public class CameraShake : MonoBehaviour
         _originalPosition = _camera.localPosition;
     }
 
+    public void Shake()
+    {
+        _shakeDuration = _maxShakeDuration;
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -37,10 +42,5 @@ public class CameraShake : MonoBehaviour
         {
             _camera.localPosition = _originalPosition;
         }
-    }
-
-    public void Shake()
-    {
-        _shakeDuration = _maxShakeDuration;
     }
 }

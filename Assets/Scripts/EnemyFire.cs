@@ -88,11 +88,14 @@ public class EnemyFire : MonoBehaviour
     {
         if (!_hasTakenPowerupShot)
         {
-            Collider2D collider = Physics2D.OverlapBox(_sensorPosition.position, _sensorBoxSize, 0f, _powerupLayerMask); ;
+            Collider2D collider = Physics2D.OverlapBox(
+                _sensorPosition.position,
+                _sensorBoxSize, 
+                0f,
+                _powerupLayerMask);
             
             if (collider)
             {
-                Debug.Log(collider.name);
                 FireProjectile();
                 _hasTakenPowerupShot = true;
             }

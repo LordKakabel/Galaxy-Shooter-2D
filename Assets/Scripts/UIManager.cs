@@ -20,7 +20,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] private RectTransform _thrustRemainingRectTransform = null;
     [SerializeField] private Image _thrustRemainingImage = null;
     [SerializeField] private Color[] _thrustColors = new Color[3];
-
+    [SerializeField] private Image _tractorBeamRemainingImage = null;
+    
     private Color _originalAmmoTextColor;
     private Vector2 _thrustRemainingOriginalSize;
     
@@ -76,6 +77,13 @@ public class UIManager : MonoBehaviour
             _thrustRemainingOriginalSize.y);
         
         _thrustRemainingImage.color = _thrustColors[(int)((percentFull * 3) - 0.1f)];
+    }
+
+    public void UpdateTractorBeamBar(float percentFull)
+    {
+        _tractorBeamRemainingImage.fillAmount = percentFull;
+
+        _tractorBeamRemainingImage.color = new Color(0, 0, percentFull);
     }
 
     public void DisplayWave(int waveNumber)
