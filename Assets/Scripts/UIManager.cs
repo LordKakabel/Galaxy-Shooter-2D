@@ -83,7 +83,8 @@ public class UIManager : MonoBehaviour
     {
         _tractorBeamRemainingImage.fillAmount = percentFull;
 
-        _tractorBeamRemainingImage.color = new Color(0, 0, percentFull);
+        // Set color from fill percent = 0% at 50% blue to fill percent 100% = 100% blue
+        _tractorBeamRemainingImage.color = new Color(0, 0, (percentFull / 2) + 0.5f);
     }
 
     public void DisplayWave(int waveNumber)

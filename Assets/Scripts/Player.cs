@@ -130,7 +130,6 @@ public class Player : MonoBehaviour
                     (transform.position - powerup.transform.position).normalized
                     * _tractorBeamDrawSpeed
                     * Time.deltaTime);
-
             }
 
             _currentTractorBeamTimeRemaining = Mathf.Max(_currentTractorBeamTimeRemaining - Time.deltaTime, 0);
