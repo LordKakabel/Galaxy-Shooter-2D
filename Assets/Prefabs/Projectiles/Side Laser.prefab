@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 1871782355772317937}
   - component: {fileID: 615647546518009608}
   - component: {fileID: 3986420079524971942}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Laser (2)
   m_TagString: Laser
   m_Icon: {fileID: 0}
@@ -48,6 +48,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _speed: 8
   _yBoundary: 8
+  _canPenetrateShield: 0
 --- !u!212 &1871782355772317937
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -191,7 +192,7 @@ GameObject:
   - component: {fileID: 5054564534868738218}
   - component: {fileID: 6293705326492342099}
   - component: {fileID: 7533986131823994365}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Laser (1)
   m_TagString: Laser
   m_Icon: {fileID: 0}
@@ -226,6 +227,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _speed: 8
   _yBoundary: 8
+  _canPenetrateShield: 0
 --- !u!212 &5054564534868738218
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -336,7 +338,7 @@ GameObject:
   - component: {fileID: 4872592105196213428}
   - component: {fileID: 5975217567461737293}
   - component: {fileID: 7869371185621037539}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Laser
   m_TagString: Laser
   m_Icon: {fileID: 0}
@@ -371,6 +373,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _speed: 8
   _yBoundary: 8
+  _canPenetrateShield: 0
 --- !u!212 &4872592105196213428
 SpriteRenderer:
   m_ObjectHideFlags: 0
