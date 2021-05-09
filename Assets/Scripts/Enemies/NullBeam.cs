@@ -5,6 +5,7 @@ using UnityEngine;
 public class NullBeam : MonoBehaviour
 {
     [SerializeField] private float _yScaleMax = 2.68f;
+    [SerializeField] private bool _isBossNullBeam = false;
 
     private enum State { Off, Growing, Sustaining, Shrinking };
     private State _state = State.Off;
@@ -53,13 +54,17 @@ public class NullBeam : MonoBehaviour
 
         _state = State.Sustaining;
 
-        yield return new WaitForSeconds(duration / 3);
+        if (!_isBossNullBeam)
+        {
 
-        _state = State.Shrinking;
+            yield return new WaitForSeconds(duration / 3);
 
-        yield return new WaitForSeconds(duration / 3);
+            _state = State.Shrinking;
 
-        _state = State.Off;
+            yield return new WaitForSeconds(duration / 3);
+
+            _state = State.Off;
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

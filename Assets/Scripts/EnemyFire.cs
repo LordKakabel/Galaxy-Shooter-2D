@@ -16,6 +16,7 @@ public class EnemyFire : MonoBehaviour
     [SerializeField] private Transform _sensorPosition = null;
     [SerializeField] private Vector2 _sensorBoxSize = new Vector2(1f, 16f);
     [SerializeField] private LayerMask _powerupLayerMask = 0;
+    [SerializeField] private float _maxProjectileFiringArc = 0f;
 
     private float _nextFire;
     private bool _isFiring = true;
@@ -48,7 +49,8 @@ public class EnemyFire : MonoBehaviour
 
     private void FireProjectile()
     {
-        Instantiate(_projectilePrefab, transform.position + _projectileOffset, Quaternion.identity);
+        float rotation = Random.Range(-_maxProjectileFiringArc, _maxProjectileFiringArc);
+        Instantiate(_projectilePrefab, transform.position + _projectileOffset, Quaternion.Euler(0, 0, rotation));
 
         _nextFire = Time.time + Random.Range(_minFireCooldown, _maxFireCooldown);
 

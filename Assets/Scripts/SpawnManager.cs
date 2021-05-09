@@ -29,6 +29,13 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] private int _rootDivisor = 4;
     [SerializeField] private float _waveStartDisplayDelay = 1.5f;
     [SerializeField] private Vector3 _offscreenSpawnPoint = new Vector3(0, 8.5f, 0);
+    [SerializeField] private AudioClip _alertSFX = null;
+    [SerializeField] private AudioClip _bossMusic = null;
+    [SerializeField] private int _bossWaveNumber = 10;
+    [SerializeField] private GameObject _finalPowerups = null;
+    [SerializeField] private GameObject _boss = null;
+    [SerializeField] private AudioSource _backgroundMusicPlayer = null;
+    [SerializeField] private float _delayBeforeBoss = 6f;
 
     private bool _continueSpawning = true;
     private int _waveNumber = 1;
@@ -99,6 +106,15 @@ public class SpawnManager : MonoBehaviour
             }
         }
 
+        PopulatePowerupWaveTable();
+
+        _continueSpawning = true;
+        StartCoroutine(StartWave());
+        StartCoroutine(SpawnPowerupRoutine());
+    }
+
+    private void PopulatePowerupWaveTable()
+    {
         _powerupWaveTable = new List<WaveEntry>();
         foreach (var waveEntry in _powerupWaveEntries)
         {
@@ -110,10 +126,6 @@ public class SpawnManager : MonoBehaviour
                 }
             }
         }
-
-        _continueSpawning = true;
-        StartCoroutine(StartWave());
-        StartCoroutine(SpawnPowerupRoutine());
     }
 
     private IEnumerator StartWave()
@@ -148,6 +160,40 @@ public class SpawnManager : MonoBehaviour
     {
         _continueSpawning = false;
         _waveNumber++;
-        StartCoroutine(PopulateWave());
+
+        if (_waveNumber == _bossWaveNumber) FinalStage();
+        else StartCoroutine(PopulateWave());
+    }
+
+    private void FinalStage()
+    {
+        _finalPowerups.SetActive(true);
+        StartCoroutine(Alert());
+    }
+
+    private IEnumerator Alert()
+    {
+        yield return new WaitForSeconds(_delayBeforeBoss);
+
+        _backgroundMusicPlayer.clip = _alertSFX;
+        _backgroundMusicPlayer.loop = false;
+        _backgroundMusicPlayer.Play();
+
+        StartCoroutine(BossMusic());
+    }
+
+    private IEnumerator BossMusic()
+    {
+        yield return new WaitForSeconds(_alertSFX.length);
+
+        _backgroundMusicPlayer.clip = _bossMusic;
+        _backgroundMusicPlayer.loop = true;
+        _backgroundMusicPlayer.Play();
+
+        PopulatePowerupWaveTable();
+        _continueSpawning = true;
+        StartCoroutine(SpawnPowerupRoutine());
+
+        _boss.SetActive(true);
     }
 }
