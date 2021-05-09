@@ -14,6 +14,7 @@ public class Player : MonoBehaviour
     [SerializeField] private Transform _pfProjectile = null;
     [SerializeField] private Transform _pfTripleShotProjectile = null;
     [SerializeField] private Transform _pfSideShotProjectile = null;
+    [SerializeField] private Transform _pfHomingProjectile = null;
     [SerializeField] private Vector3 _projectileOffset = new Vector3(0, 0.75f, 0);
     [SerializeField] private float _fireRate = 0.5f;
     [SerializeField] private int _maxLives = 3;
@@ -37,6 +38,7 @@ public class Player : MonoBehaviour
     [SerializeField] private float _maxTractorBeamTime = 3f;
     [Tooltip("The higher this number, the slower the tractor beam will recharge. Cannot be 0.")]
     [SerializeField] private float _tractorBeamRechargeDivisor = 2f;
+    [SerializeField] private int _maxHomingProjectiles = 3;
 
     private float _nextFire = 0f;
     private GameManager _gameManager;
@@ -60,6 +62,7 @@ public class Player : MonoBehaviour
     private Coroutine _sideShotCoroutine;
     private Coroutine _speedBoostCoroutine;
     private float _currentTractorBeamTimeRemaining;
+    private int _currentHomingProjectiles = 0;
 
     private void Awake()
     {
@@ -222,7 +225,12 @@ public class Player : MonoBehaviour
 
         Transform projectile;
 
-        if (_isSideShotActive)
+        if (_currentHomingProjectiles > 0)
+        {
+            _currentHomingProjectiles--;
+            projectile = _pfHomingProjectile;
+        }
+        else if (_isSideShotActive)
         {
             projectile = _pfSideShotProjectile;
         }
@@ -329,6 +337,11 @@ public class Player : MonoBehaviour
     {
         _currentAmmo = Mathf.Max(_currentAmmo - _deleteAmmoPowerupAmount, 0);
         _uiManager.UpdateAmmo(_currentAmmo, _maxAmmo);
+    }
+
+    public void HomingProjectile()
+    {
+        _currentHomingProjectiles = _maxHomingProjectiles;
     }
 
     public void Damage(bool canPenetrateShield)

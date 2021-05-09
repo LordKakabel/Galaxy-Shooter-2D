@@ -527,6 +527,8 @@ MonoBehaviour:
     type: 3}
   _pfSideShotProjectile: {fileID: 3219621761136048731, guid: 1441d1212abd2a64ba7e32fe88a7e7e1,
     type: 3}
+  _pfHomingProjectile: {fileID: 1825442349167100535, guid: 0ed02d9cdb573f44fb0e56b754035b08,
+    type: 3}
   _projectileOffset: {x: 0, y: 1, z: 0}
   _fireRate: 0.15
   _maxLives: 3
@@ -553,6 +555,7 @@ MonoBehaviour:
   _tractorBeamDrawSpeed: 2
   _maxTractorBeamTime: 3
   _tractorBeamRechargeDivisor: 2
+  _maxHomingProjectiles: 3
   _isTripleShotActive: 0
 --- !u!4 &313741357
 Transform:
@@ -1622,6 +1625,10 @@ MonoBehaviour:
       type: 3}
     StartingWave: 5
     RarityWeight: 1
+  - GameObjectPrefab: {fileID: 5484127385763446520, guid: e59d4253f27bcd84ab68c5e9927a7f53,
+      type: 3}
+    StartingWave: 7
+    RarityWeight: 1
   _powerupWaveEntries:
   - GameObjectPrefab: {fileID: 1223824561702564058, guid: caf6c8f06c1c87741bf484fd2faae222,
       type: 3}
@@ -1655,6 +1662,10 @@ MonoBehaviour:
       type: 3}
     StartingWave: 1
     RarityWeight: 2
+  - GameObjectPrefab: {fileID: 5118595272835818424, guid: 04a840ad5617def4bb667119c28b136b,
+      type: 3}
+    StartingWave: 5
+    RarityWeight: 1
   _enemiesInWave1: 5
   _minSpawnDelayWave1: 5
   _maxSpawnDelayWave1: 7

@@ -52,7 +52,7 @@ MonoBehaviour:
   _speed: 5
   _yRange: 7.5
   _xRange: 9
-  _scoreValue: 10
+  _scoreValue: 50
   _deathAnimation: {fileID: 7400000, guid: 407b21afe4450f84483db6629bebd363, type: 2}
   _explosionSFX: {fileID: 8300000, guid: a885c043fab7e46438bba03ba9dab6bc, type: 3}
   _xSpawnRange: 8

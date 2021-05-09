@@ -71,13 +71,16 @@ public class EnemyFire : MonoBehaviour
 
     private bool CheckRearView()
     {
-        // If our Y < the Player's Y,
-        if (transform.position.y < _player.transform.position.y)
+        if (_player != null)
         {
-            // If the Player's X is within our detection width,
-            if (Mathf.Abs(transform.position.x - _player.transform.position.x) <= _rearSensorDetectionWidth)
+            // If our Y < the Player's Y,
+            if (transform.position.y < _player.transform.position.y)
             {
-                return true;
+                // If the Player's X is within our detection width,
+                if (Mathf.Abs(transform.position.x - _player.transform.position.x) <= _rearSensorDetectionWidth)
+                {
+                    return true;
+                }
             }
         }
 

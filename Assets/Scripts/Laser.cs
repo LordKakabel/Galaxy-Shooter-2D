@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Laser : MonoBehaviour
 {
-    [SerializeField] private float _speed = 8f;
+    [SerializeField] protected float _speed = 8f;
     [SerializeField] private float _yBoundary = 8f;
     [SerializeField] private bool _canPenetrateShield = false;
 
@@ -43,7 +43,7 @@ public class Laser : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Power Up"))
+        if (CompareTag("Enemy Laser") && collision.CompareTag("Power Up"))
         {
             Destroy(collision.gameObject);
             DestroySelf();
