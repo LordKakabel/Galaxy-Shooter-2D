@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LavosBit : MonoBehaviour
+public class LavosBit : Enemy
 {
-    [SerializeField] private float _speed = 5f;
     [SerializeField] private float _minXPos = 3.75f;
     [SerializeField] private float _maxXPos = 9.5f;
     [Tooltip("The higher this number, the more erratic the bits will move.")]
@@ -19,9 +18,17 @@ public class LavosBit : MonoBehaviour
     private float _lastXPos;
     private float _fadeInTimer;
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
+
         _lastXPos = transform.position.x;
+    }
+
+    private void Start()
+    {
+        _spawnManager = FindObjectOfType<SpawnManager>();
+        if (_spawnManager == null) { Debug.LogError(name + ": SpawnManager not found."); }
     }
 
     public void Activate()
@@ -68,5 +75,10 @@ public class LavosBit : MonoBehaviour
         if (transform.position.x <= _minXPos) _isHeadingRight = true;
 
         _lastXPos = transform.position.x;
+    }
+
+    protected override void OnTriggerEnter2D(Collider2D collision)
+    {
+
     }
 }

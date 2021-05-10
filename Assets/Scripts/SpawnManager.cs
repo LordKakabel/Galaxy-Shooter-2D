@@ -31,11 +31,13 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] private Vector3 _offscreenSpawnPoint = new Vector3(0, 8.5f, 0);
     [SerializeField] private AudioClip _alertSFX = null;
     [SerializeField] private AudioClip _bossMusic = null;
+    [SerializeField] private AudioClip _winMusic = null;
     [SerializeField] private int _bossWaveNumber = 10;
     [SerializeField] private GameObject _finalPowerups = null;
     [SerializeField] private GameObject _boss = null;
     [SerializeField] private AudioSource _backgroundMusicPlayer = null;
     [SerializeField] private float _delayBeforeBoss = 6f;
+    [SerializeField] private int _enemiesInBossStage = 3;
 
     private bool _continueSpawning = true;
     private int _waveNumber = 1;
@@ -155,13 +157,13 @@ public class SpawnManager : MonoBehaviour
         if (_enemiesRemaining <= 0) EndWave();
     }
 
-    //! Needs to be public so boss can call upon death once it is implimented
-    public void EndWave()
+    private void EndWave()
     {
         _continueSpawning = false;
         _waveNumber++;
 
         if (_waveNumber == _bossWaveNumber) FinalStage();
+        else if (_waveNumber == _bossWaveNumber + 1) Win();
         else StartCoroutine(PopulateWave());
     }
 
@@ -194,6 +196,17 @@ public class SpawnManager : MonoBehaviour
         _continueSpawning = true;
         StartCoroutine(SpawnPowerupRoutine());
 
+        _enemiesRemaining = _enemiesInBossStage;
+
         _boss.SetActive(true);
+    }
+
+    private void Win()
+    {
+        _backgroundMusicPlayer.clip = _winMusic;
+        _backgroundMusicPlayer.loop = false;
+        _backgroundMusicPlayer.Play();
+
+        _uiManager.Win();
     }
 }

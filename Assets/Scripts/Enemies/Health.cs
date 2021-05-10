@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -36,11 +37,12 @@ public class Health : MonoBehaviour
     {
         _currentHealth--;
 
-        float healthPercentage = (_currentHealth - 1) / (_maxHealth - 1);
+        float healthPercentage = (_currentHealth - 1f) / (_maxHealth - 1f);
         _spriteRenderer.color = new Color(1f, healthPercentage, healthPercentage);
 
-        if (_currentHealth < 0)
+        if (_currentHealth <= 0)
         {
+            _spriteRenderer.color = Color.white;
             Death();
         }
     }
@@ -48,6 +50,7 @@ public class Health : MonoBehaviour
     private void Death()
     {
         _player.AddScore(_scoreValue);
-        //? StartCoroutine(DestroySelf());
+
+        GetComponent<Enemy>().DestroySelf();
     }
 }

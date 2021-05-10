@@ -17,14 +17,14 @@ public class Enemy : MonoBehaviour
     [SerializeField] private GameObject _shieldPrefab = null;
     [SerializeField] private float _shieldPercentage = .10f;
     
-    private Player _player;
-    private Animator _animator;
-    private Collider2D _collider;
-    private SpawnManager _spawnManager;
+    protected Player _player;
+    protected Animator _animator;
+    protected Collider2D _collider;
+    protected SpawnManager _spawnManager;
     private bool _isShieldActive = false;
     private GameObject _shield;
 
-    private void Awake()
+    protected virtual void Awake()
     {
         _animator = GetComponent<Animator>();
         if (_animator == null) { Debug.LogError(name + ": Animator not found."); }
@@ -74,7 +74,7 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    protected virtual void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Laser"))
         {
@@ -88,7 +88,7 @@ public class Enemy : MonoBehaviour
             {
                 _player.AddScore(_scoreValue);
                 Destroy(collision.gameObject);
-                StartCoroutine(DestroySelf());
+                StartCoroutine(OnDestroySelf());
             }
         }
         else if (collision.CompareTag("Player"))
@@ -102,12 +102,17 @@ public class Enemy : MonoBehaviour
             else
             {
                 collision.transform.GetComponent<Player>().Damage(_canPenetrateShield);
-                StartCoroutine(DestroySelf());
+                StartCoroutine(OnDestroySelf());
             }
         }
     }
 
-    protected virtual IEnumerator DestroySelf()
+    public void DestroySelf()
+    {
+        StartCoroutine(OnDestroySelf());
+    }
+
+    protected virtual IEnumerator OnDestroySelf()
     {
         _animator.SetTrigger("OnEnemyDeath");
         _speed = 0;

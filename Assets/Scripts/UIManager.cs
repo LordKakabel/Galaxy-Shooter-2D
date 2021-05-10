@@ -21,7 +21,9 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Image _thrustRemainingImage = null;
     [SerializeField] private Color[] _thrustColors = new Color[3];
     [SerializeField] private Image _tractorBeamRemainingImage = null;
-    
+    [SerializeField] private GameObject _congratzText = null;
+    [SerializeField] private GameObject _winText = null;
+
     private Color _originalAmmoTextColor;
     private Vector2 _thrustRemainingOriginalSize;
     
@@ -58,14 +60,23 @@ public class UIManager : MonoBehaviour
     public void DisplayGameOver()
     {
         _restartDisplay.SetActive(true);
-        StartCoroutine(GameOverFlicker());
+        StartCoroutine(Flicker(_gameOverDisplay));
     }
 
-    private IEnumerator GameOverFlicker()
+    public void Win()
+    {
+        _winText.SetActive(true);
+        _restartDisplay.SetActive(true);
+        StartCoroutine(Flicker(_congratzText));
+
+        FindObjectOfType<GameManager>().GameOver();
+    }
+
+    private IEnumerator Flicker(GameObject objectToFlicker)
     {
         for (int i = 0; i < _timesToFlicker; i++)
         {
-            _gameOverDisplay.SetActive(!_gameOverDisplay.activeSelf);
+            objectToFlicker.SetActive(!objectToFlicker.activeSelf);
             yield return new WaitForSeconds(_flickerDelay);
         }
     }

@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Beholder : MonoBehaviour
+public class Beholder : Enemy
 {
-    [SerializeField] private float _speed = 1f;
     [SerializeField] private EnemyFire[] _enemyFires = null;
     [SerializeField] private LavosBit[] _lavosBits = null;
     [SerializeField] private NullBeam _nullBeam = null;
@@ -12,12 +11,24 @@ public class Beholder : MonoBehaviour
     [SerializeField] private float _finalYPosition = 2.5f;
 
     private bool _isInPosition = false;
-    
+
+    private void Start()
+    {
+        _player = FindObjectOfType<Player>();
+        if (_player == null) { Debug.LogError(name + ": Player not found."); }
+
+        _spawnManager = FindObjectOfType<SpawnManager>();
+        if (_spawnManager == null) { Debug.LogError(name + ": SpawnManager not found."); }
+
+        _player.CeaseFire();
+    }
+
     private void AllSystemsActive()
     {
         ActivateBits();
         _nullBeam.gameObject.SetActive(true);
         _nullBeam.ShootBeam(_nullBeamDuration);
+        _player.ResumeFire();
         EnableFiring();
     }
 
@@ -49,5 +60,10 @@ public class Beholder : MonoBehaviour
             bit.gameObject.SetActive(true);
             bit.Activate();
         }
+    }
+
+    protected override void OnTriggerEnter2D(Collider2D collision)
+    {
+
     }
 }

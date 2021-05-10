@@ -63,6 +63,7 @@ public class Player : MonoBehaviour
     private Coroutine _speedBoostCoroutine;
     private float _currentTractorBeamTimeRemaining;
     private int _currentHomingProjectiles = 0;
+    private bool _canFire = true;
 
     private void Awake()
     {
@@ -108,7 +109,7 @@ public class Player : MonoBehaviour
     {
         CalculateMovement();
 
-        if (Input.GetKeyDown(KeyCode.Space) && Time.time > _nextFire && _currentAmmo > 0)
+        if (Input.GetKeyDown(KeyCode.Space) && Time.time > _nextFire && _currentAmmo > 0 && _canFire)
         {
             FireProjectile();
         }
@@ -446,5 +447,15 @@ public class Player : MonoBehaviour
         _isShieldActive = false;
         _shield.SetActive(false);
         _currentShieldHealth = 0;
+    }
+
+    public void CeaseFire()
+    {
+        _canFire = false;
+    }
+
+    public void ResumeFire()
+    {
+        _canFire = true;
     }
 }

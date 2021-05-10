@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 5110584815963646443}
   - component: {fileID: 5110584815963646442}
   m_Layer: 0
-  m_Name: Lavos Bit (0)
+  m_Name: Lavos Bit
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -50,6 +50,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _speed: 5
+  _yRange: 7.5
+  _xRange: 9
+  _scoreValue: 100
+  _deathAnimation: {fileID: 7400000, guid: f7a718628b90b8e4084bbf1dbf39cba6, type: 2}
+  _explosionSFX: {fileID: 8300000, guid: 9cf5b597b834f1242a60d2b0741d8622, type: 3}
+  _xSpawnRange: 8
+  _ySpawnPoint: 7
+  _zSpawnPoint: 0
+  _canPenetrateShield: 0
+  _shieldPrefab: {fileID: 0}
+  _shieldPercentage: 0
   _minXPos: -9.5
   _maxXPos: -3.75
   _timeMultiplier: 2
@@ -68,7 +79,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f3715db78f58db40b64753cc6aaa091, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxHealth: 3
+  _maxHealth: 1
   _scoreValue: 100
   _spriteRenderer: {fileID: 5110584815963646439}
 --- !u!114 &5110584815963646444
