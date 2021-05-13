@@ -64,7 +64,7 @@ MonoBehaviour:
   _layerMask:
     serializedVersion: 2
     m_Bits: 512
-  _detectionRadius: 3
+  _detectionRadius: 5
   _rammingSpeed: 7
   _xBoundary: 15
   _directionProbe: {fileID: 77988971339590536}
@@ -104,8 +104,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -594804627
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: a6b7b383a29c9604682f10d58a184d8a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

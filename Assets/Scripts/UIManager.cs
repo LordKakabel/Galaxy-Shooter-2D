@@ -23,6 +23,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Image _tractorBeamRemainingImage = null;
     [SerializeField] private GameObject _congratzText = null;
     [SerializeField] private GameObject _winText = null;
+    [SerializeField] private GameObject _instructionsText = null;
 
     private Color _originalAmmoTextColor;
     private Vector2 _thrustRemainingOriginalSize;
@@ -31,6 +32,7 @@ public class UIManager : MonoBehaviour
     {
         _originalAmmoTextColor = _ammoText.color;
         _thrustRemainingOriginalSize = _thrustRemainingRectTransform.sizeDelta;
+        ShowHideInstructions(true);
     }
 
     public void UpdateScore(int score)
@@ -106,5 +108,10 @@ public class UIManager : MonoBehaviour
     public void HideWaveDisplay()
     {
         _waveText.text = "";
+    }
+
+    public void ShowHideInstructions(bool isShowing)
+    {
+        _instructionsText.SetActive(isShowing);
     }
 }

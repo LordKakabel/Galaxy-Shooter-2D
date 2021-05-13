@@ -47,6 +47,20 @@ public class Health : MonoBehaviour
         }
     }
 
+    /* Do the math!
+     *    Col A                Col B
+     * Max 3 hits:
+     * 2 / 3 = 66%          1 / 2 = 50%
+     * 1 / 3 = 33%          0 / 2 = 0%
+     * 
+     * Max 5 hits:
+     * 4 / 5 = 80%          3 / 4 = 75%
+     * 3 / 5 = 60%          2 / 4 = 50%
+     * 2 / 5 = 40%          1 / 4 = 25%
+     * 1 / 5 = 20%          0 / 4 = 0%
+     * 
+     */
+
     private void Death()
     {
         _player.AddScore(_scoreValue);

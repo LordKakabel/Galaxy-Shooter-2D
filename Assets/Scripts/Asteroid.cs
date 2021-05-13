@@ -42,6 +42,7 @@ public class Asteroid : MonoBehaviour
 
     private void DestroySelf()
     {
+        FindObjectOfType<UIManager>().ShowHideInstructions(false);
         _spawnManager.BeginSpawning();
         GameObject explosion = Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
         AudioSource.PlayClipAtPoint(_explosionSFX, transform.position);

@@ -6,9 +6,6 @@ public class LavosBit : Enemy
 {
     [SerializeField] private float _minXPos = 3.75f;
     [SerializeField] private float _maxXPos = 9.5f;
-    [Tooltip("The higher this number, the more erratic the bits will move.")]
-    [Range(1,10)]
-    [SerializeField] private int _timeMultiplier = 2;
     [SerializeField] private float _fadeInDuration = 3f;
     [SerializeField] private SpriteRenderer _spriteRenderer = null;
     [SerializeField] private EnemyFire _enemyFire = null;
@@ -65,9 +62,8 @@ public class LavosBit : Enemy
 
     private void ChooseDirection()
     {
-        int check = (int)(Time.time * _timeMultiplier);
-        check %= 2;
-        if (check == 0) _isHeadingRight = true;
+        int heading = Random.Range(0, 2);
+        if (heading == 0) _isHeadingRight = true;
         else _isHeadingRight = false;
 
         // Boundary check

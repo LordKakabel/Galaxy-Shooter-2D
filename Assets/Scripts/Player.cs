@@ -109,7 +109,7 @@ public class Player : MonoBehaviour
     {
         CalculateMovement();
 
-        if (Input.GetKeyDown(KeyCode.Space) && Time.time > _nextFire && _currentAmmo > 0 && _canFire)
+        if (Input.GetAxisRaw("Fire1") != 0 && Time.time > _nextFire && _currentAmmo > 0 && _canFire)
         {
             FireProjectile();
         }
@@ -122,7 +122,7 @@ public class Player : MonoBehaviour
 
     private void TractorBeam()
     {
-        if (Input.GetKey(KeyCode.C) && _currentTractorBeamTimeRemaining > 0)
+        if (Input.GetAxisRaw("Fire2") != 0 && _currentTractorBeamTimeRemaining > 0)
         {
             // Find all power-ups on the screen
             GameObject[] powerups = GameObject.FindGameObjectsWithTag("Power Up");
