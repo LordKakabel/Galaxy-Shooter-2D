@@ -65,7 +65,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 512
   _detectionRadius: 5
-  _rammingSpeed: 7
+  _rammingSpeedMultiplier: 2.333
   _xBoundary: 15
   _directionProbe: {fileID: 77988971339590536}
 --- !u!212 &77988970449821735

@@ -88,7 +88,7 @@ public class Enemy : MonoBehaviour
             {
                 _player.AddScore(_scoreValue);
                 Destroy(collision.gameObject);
-                StartCoroutine(OnDestroySelf());
+                DestroySelf();
             }
         }
         else if (collision.CompareTag("Player"))
@@ -97,17 +97,17 @@ public class Enemy : MonoBehaviour
             {
                 _isShieldActive = false;
                 collision.transform.GetComponent<Player>().Damage(_canPenetrateShield);
-                Destroy(_shield);
+                _shield.SetActive(false);
             }
             else
             {
                 collision.transform.GetComponent<Player>().Damage(_canPenetrateShield);
-                StartCoroutine(OnDestroySelf());
+                DestroySelf();
             }
         }
     }
 
-    public void DestroySelf()
+    public virtual void DestroySelf()
     {
         StartCoroutine(OnDestroySelf());
     }

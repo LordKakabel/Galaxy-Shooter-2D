@@ -41,9 +41,9 @@ public class SinFighter : Enemy
         }
     }
 
-    protected override IEnumerator OnDestroySelf()
+    public override void DestroySelf()
     {
         _isAlive = false;
-        return base.OnDestroySelf();
+        base.DestroySelf();
     }
 }

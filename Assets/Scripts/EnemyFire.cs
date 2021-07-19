@@ -91,7 +91,7 @@ public class EnemyFire : MonoBehaviour
 
     private void DetectPowerup()
     {
-        if (!_hasTakenPowerupShot)
+        if (!_hasTakenPowerupShot && _isFiring)
         {
             Collider2D collider = Physics2D.OverlapBox(
                 _sensorPosition.position,

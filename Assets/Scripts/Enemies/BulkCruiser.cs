@@ -6,7 +6,7 @@ public class BulkCruiser : Enemy
 {
     [SerializeField] private LayerMask _layerMask = 0;
     [SerializeField] private float _detectionRadius = 3f;
-    [SerializeField] private float _rammingSpeed = 7f;
+    [SerializeField] private float _rammingSpeedMultiplier = 2.333f;
     [SerializeField] private float _xBoundary = 15f;
     [SerializeField] private Transform _directionProbe = null;
 
@@ -72,7 +72,7 @@ public class BulkCruiser : Enemy
 
     private void Ram()
     {
-        transform.Translate(Vector3.down * _rammingSpeed * Time.deltaTime);
+        transform.Translate(Vector3.down * _speed * _rammingSpeedMultiplier * Time.deltaTime);
 
         // If out of bounds, reset roation, switch to Cruising, and respawn
         if (Mathf.Abs(transform.position.x) >= _xBoundary || Mathf.Abs(transform.position.y) >= _ySpawnPoint)

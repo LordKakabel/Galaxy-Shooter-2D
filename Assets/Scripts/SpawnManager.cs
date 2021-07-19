@@ -132,9 +132,10 @@ public class SpawnManager : MonoBehaviour
 
     private IEnumerator StartWave()
     {
-        _enemiesRemaining = _enemiesInWave1 + _waveNumber - 1;
+        int enemiesInThisWave = _enemiesInWave1 + _waveNumber - 1;
+        _enemiesRemaining = enemiesInThisWave;
 
-        for (int i = 0; i < _enemiesInWave1 + _waveNumber - 1; i++)
+        for (int i = 0; i < enemiesInThisWave; i++)
         {
             yield return new WaitForSeconds(Random.Range(
                 _minSpawnDelayWave1 / Mathf.Pow(_waveNumber, 1 / _rootDivisor),
